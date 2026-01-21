@@ -1,0 +1,161 @@
+.staff-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.staff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.staff-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.staff-header p {
+  color: #6b7280;
+}
+
+.staff-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+}
+
+.stat-card strong {
+  font-size: 1.5rem;
+}
+
+.stat-card.green {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.stat-card.gray {
+  background: #f9fafb;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: #f3f4f6;
+}
+
+.badge.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge.muted {
+  background: #e5e7eb;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.icon-btn {
+  border: 1px solid #e5e7eb;
+  background: white;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #f3f4f6;
+}
+
+.icon-btn.danger:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #059669;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #047857;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal-box input,
+.modal-box select {
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}

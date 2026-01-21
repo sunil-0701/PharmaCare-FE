@@ -1,0 +1,136 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: linear-gradient(180deg, #ffffff, #f9fafb);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 1rem;
+  right: -12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-logo {
+  background: linear-gradient(to right, #059669, #10b981);
+  color: white;
+  padding: 0.6rem;
+  border-radius: 0.75rem;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sidebar-subtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.sidebar-role {
+  margin: 0 1rem 1rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+}
+
+.sidebar-role-admin {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.sidebar-role-pharmacist {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.sidebar-role-inventory {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.sidebar-menu {
+  flex: 1;
+  padding: 0 0.5rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #374151;
+  width: 100%;
+}
+
+.sidebar-item:hover {
+  background: #f3f4f6;
+}
+
+.sidebar-item.active {
+  background: #ecfdf5;
+  color: #059669;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.sidebar-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sidebar-user-email {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.sidebar-logout {
+  margin-top: 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.sidebar-logout:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
