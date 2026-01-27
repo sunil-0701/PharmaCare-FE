@@ -9,6 +9,7 @@ import {
   ShoppingCart,
   Info,
 } from "lucide-react";
+import { Pagination } from "./Pagination.jsx";
 import "./POSInterface.css";
 
 const medicines = [
@@ -66,7 +67,7 @@ export function POSInterface() {
   };
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  const tax = subtotal * 0.05; // 5% tax
+  const tax = subtotal * 0.05;
   const total = subtotal + tax;
 
   const generateBill = () => {
@@ -101,29 +102,26 @@ export function POSInterface() {
   return (
     <div className="pos">
       <header className="pos-header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.25rem' }}>PharmaCare</h1>
-            <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>Healthcare System</p>
+        <div className="pos-header-content">
+          <div className="pos-brand">
+            <h1>PharmaCare</h1>
+            <p>Healthcare System</p>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontWeight: '600', fontSize: '0.95rem' }}>Role:pharmacist</div>
-            <div style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+          <div className="pos-user-badge">
+            <div className="user-role">Role: Pharmacist</div>
+            <div className="user-details">
               <div>John Pharmacist</div>
               <div>pharmacist@pharmacare.com</div>
             </div>
           </div>
         </div>
-        
-        
       </header>
 
       <div className="pos-layout">
-        {/* LEFT SIDE - MEDICINE SEARCH */}
         <div className="left-panel">
           <div className="pos-card">
             <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>Medicine Search</h3>
-            
+
             <div className="pos-search-bar">
               <div className="pos-input-icon">
                 <Search size={18} />
@@ -169,7 +167,7 @@ export function POSInterface() {
                     </td>
                     <td>{m.expiry}</td>
                     <td>
-                      <button 
+                      <button
                         className="btn add small"
                         onClick={() => addToCart(m)}
                         style={{ padding: '0.25rem 0.75rem' }}
@@ -182,30 +180,23 @@ export function POSInterface() {
               </tbody>
             </table>
 
-            <div className="pos-pagination">
-              <div>Showing 1-{pagedMedicines.length} of {filteredMedicines.length}</div>
-              <div className="pos-pagination-controls">
-                <span>Rows per page:</span>
-                <select 
-                  value={rowsPerPage}
-                  onChange={(e) => setRowsPerPage(Number(e.target.value))}
-                  style={{ padding: '0.25rem 0.5rem', borderRadius: '0.375rem', border: '1px solid #d1d5db' }}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                </select>
-              </div>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={filteredMedicines.length}
+              rowsPerPage={rowsPerPage}
+              onPageChange={setCurrentPage}
+              onRowsPerPageChange={(rows) => {
+                setRowsPerPage(rows);
+                setCurrentPage(1);
+              }}
+            />
           </div>
         </div>
 
-        {/* RIGHT SIDE - CUSTOMER DETAILS AND CART */}
         <div className="right-panel">
-          {/* Customer Details Card */}
           <div className="pos-card" style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>Customer Details</h3>
-            
+
             <div className="customer-input">
               <div className="customer-input-group">
                 <label>
@@ -232,14 +223,13 @@ export function POSInterface() {
                 />
               </div>
             </div>
-            
+
             <div className="pos-info" style={{ marginTop: '1rem', background: '#fef3c7', borderColor: '#fde68a', color: '#92400e' }}>
               <Info size={16} />
               Customer details are required for bill generation and record keeping.
             </div>
           </div>
 
-          {/* Cart Card */}
           <div className="pos-card">
             <div className="cart-header">
               <h3 style={{ fontSize: '1.125rem', fontWeight: '600' }}>Cart ({cart.length})</h3>
@@ -272,7 +262,7 @@ export function POSInterface() {
                         <Plus size={14} />
                       </button>
                     </div>
-                    <button 
+                    <button
                       className="cart-item-remove"
                       onClick={() => removeFromCart(item.id)}
                     >
@@ -300,7 +290,7 @@ export function POSInterface() {
               </div>
             )}
 
-            <button 
+            <button
               className="btn generate"
               onClick={generateBill}
               disabled={!cart.length || !customerName || !customerPhone}
@@ -316,18 +306,17 @@ export function POSInterface() {
         </div>
       </div>
 
-      {/* RECEIPT MODAL */}
       {showReceipt && (
         <div className="modal">
           <div className="modal-box">
             <h3 style={{ marginBottom: '1rem', color: '#111827', fontSize: '1.25rem' }}>Receipt - PharmaCare</h3>
-            
+
             <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#6b7280' }}>
               <div><strong>Customer:</strong> {customerName}</div>
               <div><strong>Phone:</strong> {customerPhone}</div>
               <div><strong>Date:</strong> {new Date().toLocaleDateString()}</div>
             </div>
-            
+
             <div style={{ marginBottom: '1rem', maxHeight: '200px', overflowY: 'auto' }}>
               {cart.map((item) => (
                 <div key={item.id} className="receipt-row" style={{ padding: '0.5rem 0', borderBottom: '1px solid #f3f4f6' }}>
@@ -341,7 +330,7 @@ export function POSInterface() {
                 </div>
               ))}
             </div>
-            
+
             <div style={{ borderTop: '2px solid #e5e7eb', paddingTop: '1rem' }}>
               <div className="receipt-row">
                 <span>Subtotal</span>
@@ -356,16 +345,16 @@ export function POSInterface() {
                 <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
-            
+
             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem' }}>
-              <button 
+              <button
                 className="btn primary"
                 onClick={printReceipt}
                 style={{ flex: 1 }}
               >
                 <Printer size={16} /> Print Receipt
               </button>
-              <button 
+              <button
                 className="btn"
                 onClick={() => setShowReceipt(false)}
                 style={{ background: '#f3f4f6', border: '1px solid #d1d5db' }}

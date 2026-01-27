@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./SuppilerManagement.css";
+import "./SupplierManagement.css";
 import {
   Truck,
   Plus,
@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { Pagination } from "./Pagination.jsx";
 import { toast } from "sonner";
-
 
 const suppliersData = [
   { id: "1", name: "MedSupply Co", contact: "+1 234-567-8900", email: "contact@medsupply.com", address: "123 Medical St, Health City", profitMargin: 5, status: "Active" },
@@ -54,14 +53,12 @@ export function SupplierManagement() {
         <p>Manage suppliers and purchase orders</p>
       </div>
 
-      {/* Tabs */}
       <div className="tabs">
         <button className={tab === "suppliers" ? "active" : ""} onClick={() => setTab("suppliers")}>Suppliers</button>
         <button className={tab === "orders" ? "active" : ""} onClick={() => setTab("orders")}>Purchase Orders</button>
         <button className={tab === "payments" ? "active" : ""} onClick={() => setTab("payments")}>Payments</button>
       </div>
 
-      {/* SUPPLIERS */}
       {tab === "suppliers" && (
         <>
           <div className="toolbar">
@@ -122,14 +119,13 @@ export function SupplierManagement() {
               currentPage={1}
               totalItems={suppliersData.length}
               rowsPerPage={10}
-              onPageChange={() => {}}
-              onRowsPerPageChange={() => {}}
+              onPageChange={() => { }}
+              onRowsPerPageChange={() => { }}
             />
           </div>
         </>
       )}
 
-      {/* PURCHASE ORDERS */}
       {tab === "orders" && (
         <>
           <div className="toolbar">
@@ -161,10 +157,9 @@ export function SupplierManagement() {
                     <td>{po.items}</td>
                     <td>₹{po.totalAmount.toLocaleString()}</td>
                     <td>
-                      <span className={`badge ${
-                        po.status === "Received" ? "success" :
+                      <span className={`badge ${po.status === "Received" ? "success" :
                         po.status === "Partial" ? "info" : "warning"
-                      }`}>
+                        }`}>
                         {po.status}
                       </span>
                     </td>
@@ -176,7 +171,6 @@ export function SupplierManagement() {
         </>
       )}
 
-      {/* PAYMENTS */}
       {tab === "payments" && (
         <div className="card">
           <table>
@@ -215,7 +209,6 @@ export function SupplierManagement() {
         </div>
       )}
 
-      {/* ADD SUPPLIER MODAL */}
       {showAdd && (
         <div className="modal">
           <div className="modal-box">
@@ -233,7 +226,6 @@ export function SupplierManagement() {
         </div>
       )}
 
-      {/* CREATE PO MODAL */}
       {showPO && (
         <div className="modal">
           <div className="modal-box">
@@ -255,7 +247,6 @@ export function SupplierManagement() {
         </div>
       )}
 
-      {/* DELETE CONFIRM */}
       {showDelete && (
         <div className="modal">
           <div className="modal-box">
@@ -271,3 +262,4 @@ export function SupplierManagement() {
     </div>
   );
 }
+

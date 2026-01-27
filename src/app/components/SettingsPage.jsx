@@ -12,13 +12,11 @@ export function SettingsPage() {
 
   return (
     <div className="settings-page">
-      {/* Header */}
       <div className="settings-header">
         <h1>System Settings</h1>
         <p>Configure application preferences and system settings</p>
       </div>
 
-      {/* Tabs */}
       <div className="settings-tabs">
         <button
           className={tab === "general" ? "tab active" : "tab"}
@@ -34,7 +32,6 @@ export function SettingsPage() {
         </button>
       </div>
 
-      {/* GENERAL SETTINGS */}
       {tab === "general" && (
         <div className="card">
           <div className="card-header">
@@ -91,7 +88,6 @@ export function SettingsPage() {
         </div>
       )}
 
-      {/* NOTIFICATION SETTINGS */}
       {tab === "notifications" && (
         <div className="card">
           <div className="card-header">
@@ -134,3 +130,4 @@ export function SettingsPage() {
     </div>
   );
 }
+

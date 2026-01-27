@@ -64,7 +64,6 @@ export function ReportsAnalytics() {
 
   return (
     <div className="reports">
-      {/* Header */}
       <div className="reports-header">
         <div>
           <h1>Reports & Analytics</h1>
@@ -72,7 +71,6 @@ export function ReportsAnalytics() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="reports-filters">
         <div>
           <label>Report Type</label>
@@ -99,7 +97,6 @@ export function ReportsAnalytics() {
         </button>
       </div>
 
-      {/* Tabs */}
       <div className="reports-tabs">
         {["sales", "profit", "expiry", "staff"].map((t) => (
           <button key={t} className={tab === t ? "tab active" : "tab"} onClick={() => setTab(t)}>
@@ -108,7 +105,6 @@ export function ReportsAnalytics() {
         ))}
       </div>
 
-      {/* SALES */}
       {tab === "sales" && (
         <>
           <div className="stats-grid">
@@ -167,7 +163,6 @@ export function ReportsAnalytics() {
         </>
       )}
 
-      {/* PROFIT */}
       {tab === "profit" && (
         <div className="card">
           <h3>Sales vs Profit</h3>
@@ -185,7 +180,6 @@ export function ReportsAnalytics() {
         </div>
       )}
 
-      {/* EXPIRY */}
       {tab === "expiry" && (
         <div className="card">
           <h3>Expiring Medicines</h3>
@@ -214,7 +208,6 @@ export function ReportsAnalytics() {
         </div>
       )}
 
-      {/* STAFF */}
       {tab === "staff" && (
         <div className="card">
           <h3>Staff Performance</h3>
@@ -232,3 +225,4 @@ export function ReportsAnalytics() {
     </div>
   );
 }
+

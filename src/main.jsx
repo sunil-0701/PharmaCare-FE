@@ -5,4 +5,10 @@ import "./styles/index.css";
 import "./styles/theme.css";
 import "./styles/fonts.css";
 
-createRoot(document.getElementById("root")).render(<App />);
+import { BrowserRouter } from "react-router-dom";
+
+createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

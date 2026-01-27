@@ -1,4 +1,3 @@
-/* Prescription Management */
 .rx {
   display: flex;
   flex-direction: column;
@@ -8,7 +7,6 @@
   padding: 1.5rem;
 }
 
-/* Header */
 .rx-header {
   display: flex;
   justify-content: space-between;
@@ -33,7 +31,6 @@
   margin: 0.25rem 0 0 0;
 }
 
-/* Stats */
 .rx-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -70,22 +67,21 @@
   color: #6b7280;
 }
 
-.rx-stat.success { 
+.rx-stat.success {
   color: #059669;
   border-left: 4px solid #059669;
 }
 
-.rx-stat.warning { 
+.rx-stat.warning {
   color: #d97706;
   border-left: 4px solid #d97706;
 }
 
-.rx-stat.danger { 
+.rx-stat.danger {
   color: #dc2626;
   border-left: 4px solid #dc2626;
 }
 
-/* Tabs */
 .rx-tabs {
   display: flex;
   gap: 0.5rem;
@@ -116,7 +112,6 @@
   border-color: #3b82f6;
 }
 
-/* Card */
 .rx-card {
   background: white;
   border: 1px solid #e5e7eb;
@@ -125,7 +120,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Table */
 .rx-table {
   width: 100%;
   border-collapse: collapse;
@@ -151,7 +145,6 @@
   background: #f9fafb;
 }
 
-/* Badges */
 .badge {
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
@@ -160,27 +153,26 @@
   display: inline-block;
 }
 
-.badge.pending { 
-  background: #ffedd5; 
-  color: #c2410c; 
+.badge.pending {
+  background: #ffedd5;
+  color: #c2410c;
 }
 
-.badge.verified { 
-  background: #dcfce7; 
-  color: #166534; 
+.badge.verified {
+  background: #dcfce7;
+  color: #166534;
 }
 
-.badge.rejected { 
-  background: #fee2e2; 
-  color: #991b1b; 
+.badge.rejected {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
-.badge.secondary { 
-  background: #e5e7eb; 
+.badge.secondary {
+  background: #e5e7eb;
   color: #374151;
 }
 
-/* Medicines List */
 .medicines-list {
   display: flex;
   flex-direction: column;
@@ -193,7 +185,6 @@
   padding: 0.125rem 0;
 }
 
-/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: 0.5rem;
@@ -255,7 +246,6 @@
   border-radius: 0.375rem;
 }
 
-/* Patient Section */
 .rx-patient {
   display: flex;
   gap: 0.75rem;
@@ -277,7 +267,6 @@
   margin-left: 0.5rem;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   justify-content: space-between;
@@ -303,7 +292,6 @@
   font-size: 0.8rem;
 }
 
-/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -331,7 +319,6 @@
   font-size: 1.25rem;
 }
 
-/* Form Groups */
 .form-group {
   margin-bottom: 1rem;
 }
@@ -374,7 +361,6 @@
   border-radius: 0.375rem;
 }
 
-/* Modal Actions */
 .modal-actions {
   display: flex;
   gap: 0.75rem;
@@ -386,7 +372,6 @@
   justify-content: center;
 }
 
-/* View Prescription Modal */
 .view-modal {
   max-width: 500px;
 }
@@ -433,7 +418,6 @@
   color: #9ca3af;
 }
 
-/* Utility Classes */
 .text-center {
   text-align: center;
 }

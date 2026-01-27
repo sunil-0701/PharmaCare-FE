@@ -30,7 +30,6 @@ export function Sidebar({ currentView, onViewChange }) {
   const pharmacistMenuItems = [
     { id: "pos", label: "Point of Sale", icon: ShoppingCart },
     { id: "prescriptions", label: "Prescriptions", icon: FileText },
-    // REMOVED: { id: "reports", label: "Sales Reports", icon: BarChart3 },
   ];
 
   const inventoryMenuItems = [
@@ -43,12 +42,11 @@ export function Sidebar({ currentView, onViewChange }) {
     user?.role === "admin"
       ? adminMenuItems
       : user?.role === "pharmacist"
-      ? pharmacistMenuItems
-      : inventoryMenuItems;
+        ? pharmacistMenuItems
+        : inventoryMenuItems;
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
-      {/* Collapse Toggle */}
       <button
         className="sidebar-toggle"
         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -57,7 +55,6 @@ export function Sidebar({ currentView, onViewChange }) {
         {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
       </button>
 
-      {/* Logo */}
       <div className="sidebar-header">
         <div className="sidebar-logo">
           <Pill />
@@ -70,7 +67,6 @@ export function Sidebar({ currentView, onViewChange }) {
         )}
       </div>
 
-      {/* Role Badge */}
       {!isCollapsed && (
         <div className={`sidebar-role sidebar-role-${user?.role}`}>
           <span>Role - </span>
@@ -78,7 +74,6 @@ export function Sidebar({ currentView, onViewChange }) {
         </div>
       )}
 
-      {/* Menu */}
       <nav className="sidebar-menu">
         {menuItems.map(({ id, label, icon: Icon }) => {
           const active = currentView === id;
@@ -96,7 +91,6 @@ export function Sidebar({ currentView, onViewChange }) {
         })}
       </nav>
 
-      {/* Footer */}
       <div className="sidebar-footer">
         {!isCollapsed && (
           <div className="sidebar-user">

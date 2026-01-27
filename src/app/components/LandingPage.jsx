@@ -62,19 +62,14 @@ export function LandingPage({ onNavigateToLogin }) {
 
   return (
     <div className="landing-page">
-
-      {/* Background blobs */}
       <div className="landing-background-blobs">
         <div className="landing-blob landing-blob-1" />
         <div className="landing-blob landing-blob-2" />
         <div className="landing-blob landing-blob-3" />
       </div>
-
-      {/* Header */}
       <header className="landing-header">
         <div className="landing-header-container">
           <div className="landing-header-content">
-
             <div className="landing-logo">
               <div className="landing-logo-icon">
                 <Pill className="landing-pill-icon" />
@@ -84,7 +79,6 @@ export function LandingPage({ onNavigateToLogin }) {
                 <p className="landing-logo-subtitle">Healthcare Management</p>
               </div>
             </div>
-
             <div className="landing-header-buttons">
               <button
                 className="landing-login-btn"
@@ -92,7 +86,6 @@ export function LandingPage({ onNavigateToLogin }) {
               >
                 Login
               </button>
-
               <button
                 className="landing-getstarted-btn"
                 onClick={onNavigateToLogin}
@@ -101,43 +94,36 @@ export function LandingPage({ onNavigateToLogin }) {
                 <ArrowRight className="landing-btn-icon" />
               </button>
             </div>
-
           </div>
         </div>
       </header>
 
-      {/* Hero */}
       <section className="landing-hero">
         <div className="landing-hero-container">
           <div className="landing-hero-content">
-
             <div className="landing-hero-icon-wrapper">
               <div className="landing-hero-icon-background" />
               <div className="landing-hero-icon-box">
                 <Pill className="landing-hero-icon" />
               </div>
             </div>
-
             <div className="landing-hero-text">
               <div className="landing-hero-badge">
                 <Sparkles className="landing-badge-icon" />
                 <span>Enterprise Healthcare SaaS</span>
               </div>
-
               <h1 className="landing-hero-title">
                 PharmaCare – Pharmacy
                 <span className="landing-hero-title-highlight">
                   Management System
                 </span>
               </h1>
-
               <p className="landing-hero-description">
                 A comprehensive solution for modern pharmacies featuring
                 inventory tracking, intelligent billing, expiry alerts,
                 and role-based access control.
               </p>
             </div>
-
             <div className="landing-hero-buttons">
               <button
                 className="landing-hero-primary-btn"
@@ -146,18 +132,13 @@ export function LandingPage({ onNavigateToLogin }) {
                 Login to Dashboard
                 <ArrowRight className="landing-btn-icon-lg" />
               </button>
-
-           
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* Features */}
       <section className="landing-features">
         <div className="landing-features-container">
-
           <div className="landing-features-header">
             <div className="landing-features-badge">
               <Sparkles className="landing-badge-icon" />
@@ -170,7 +151,6 @@ export function LandingPage({ onNavigateToLogin }) {
               Powerful tools designed for healthcare professionals
             </p>
           </div>
-
           <div className="landing-features-grid">
             {features.map((feature, index) => (
               <div key={index} className="landing-feature-card">
@@ -186,11 +166,9 @@ export function LandingPage({ onNavigateToLogin }) {
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* CTA */}
       <section className="landing-cta">
         <div className="landing-cta-container">
           <div className="landing-cta-background" />
@@ -212,7 +190,6 @@ export function LandingPage({ onNavigateToLogin }) {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="landing-footer">
         <div className="landing-footer-container">
           <div className="landing-footer-content">
@@ -233,7 +210,7 @@ export function LandingPage({ onNavigateToLogin }) {
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
+

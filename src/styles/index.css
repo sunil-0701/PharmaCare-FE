@@ -1,7 +1,7 @@
 @import './fonts.css';
 @import './theme.css';
 
-/* Global resets / base styles (optional but recommended) */
+
 * {
   margin: 0;
   padding: 0;

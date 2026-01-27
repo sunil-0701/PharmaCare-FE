@@ -17,7 +17,6 @@ export function LoginPage({ onNavigateBack }) {
 
     try {
       await login(email, password);
-      // Login successful - no need for alert, app will redirect
     } catch (error) {
       setError("Invalid email or password. Please check your credentials.");
     } finally {
@@ -27,13 +26,11 @@ export function LoginPage({ onNavigateBack }) {
 
   return (
     <div className="login-page">
-      {/* Background */}
       <div className="login-background">
         <div className="login-blob login-blob-1" />
         <div className="login-blob login-blob-2" />
       </div>
 
-      {/* Logo */}
       <div className="login-logo-header">
         <div className="login-logo-box">
           <Pill className="login-logo-pill" />
@@ -44,7 +41,6 @@ export function LoginPage({ onNavigateBack }) {
         </div>
       </div>
 
-      {/* Back Button */}
       {onNavigateBack && (
         <div className="login-back-btn-wrapper">
           <button
@@ -58,7 +54,6 @@ export function LoginPage({ onNavigateBack }) {
         </div>
       )}
 
-      {/* Login Card */}
       <div className="login-card">
         <div className="login-card-header">
           <div className="login-card-icon-wrapper">
@@ -74,14 +69,12 @@ export function LoginPage({ onNavigateBack }) {
 
         <div className="login-card-content">
           <form onSubmit={handleSubmit} className="login-form">
-            {/* Error Message */}
             {error && (
               <div className="login-error-box">
                 <p className="login-error-text">⚠️ {error}</p>
               </div>
             )}
 
-            {/* Email */}
             <div className="login-form-group">
               <label htmlFor="email" className="login-label">
                 Email / Username
@@ -101,7 +94,6 @@ export function LoginPage({ onNavigateBack }) {
               </div>
             </div>
 
-            {/* Password */}
             <div className="login-form-group">
               <div className="login-label-row">
                 <label htmlFor="password" className="login-label">
@@ -133,7 +125,6 @@ export function LoginPage({ onNavigateBack }) {
               </div>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="login-submit-btn"
@@ -142,7 +133,6 @@ export function LoginPage({ onNavigateBack }) {
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
-            {/* Info */}
             <div className="login-info-box">
               <p className="login-info-text">
                 <span className="login-info-emoji">ℹ️</span>
@@ -152,28 +142,6 @@ export function LoginPage({ onNavigateBack }) {
               </p>
             </div>
           </form>
-
-          {/* Demo Credentials */}
-          <div className="login-demo-section">
-            <div className="login-demo-box">
-              <p className="login-demo-title">Demo Credentials:</p>
-              <div className="login-demo-items">
-                <p className="login-demo-item">
-                  <span className="login-demo-dot login-demo-dot-admin" />
-                  <span>admin@pharmacare.com • Admin</span>
-                </p>
-                <p className="login-demo-item">
-                  <span className="login-demo-dot login-demo-dot-pharmacist" />
-                  <span>pharmacist@pharmacare.com • Pharmacist</span>
-                </p>
-                <p className="login-demo-item">
-                  <span className="login-demo-dot login-demo-dot-inventory" />
-                  <span>inventory@pharmacare.com • Inventory Manager</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

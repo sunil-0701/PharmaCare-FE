@@ -1,4 +1,3 @@
-/* Login Page */
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -9,7 +8,6 @@
   overflow: hidden;
 }
 
-/* Background Blobs */
 .login-background {
   position: absolute;
   inset: 0;
@@ -46,7 +44,6 @@ button {
   background-color: rgba(165, 243, 252, 0.3);
 }
 
-/* Logo Header */
 .login-logo-header {
   position: absolute;
   top: 2rem;
@@ -88,7 +85,6 @@ button {
   font-weight: 500;
 }
 
-/* Back Button */
 .login-back-btn-wrapper {
   position: absolute;
   top: 6rem;
@@ -119,7 +115,6 @@ button {
   margin-right: 0.5rem;
 }
 
-/* Login Card */
 .login-card {
   width: 100%;
   max-width: 28rem;
@@ -183,15 +178,14 @@ button {
   align-items: center;
 }
 
-/* Form */
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   width: 100%;
+  padding-bottom: 20px;
 }
 
-/* Error Message Box */
 .login-error-box {
   background: #FEF2F2;
   border: 1px solid #FECACA;
@@ -212,8 +206,15 @@ button {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-form-group {
@@ -257,7 +258,7 @@ button {
 
 .login-input-wrapper {
   position: relative;
-  display: flex;  
+  display: flex;
   align-items: center;
 }
 
@@ -294,7 +295,6 @@ button {
   opacity: 0.7;
 }
 
-/* Submit Button */
 .login-submit-btn {
   width: 100%;
   height: 3rem;
@@ -319,7 +319,6 @@ button {
   transform: none !important;
 }
 
-/* Info Box */
 .login-info-box {
   background: linear-gradient(to right, #EFF6FF, #CCFBF1);
   padding: 1rem;
@@ -343,7 +342,6 @@ button {
   flex-shrink: 0;
 }
 
-/* Demo Section */
 .login-demo-section {
   padding-top: 1.5rem;
   margin-top: 1.5rem;
@@ -401,28 +399,27 @@ button {
   background-color: #3B82F6;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .login-logo-header {
     top: 1.5rem;
     left: 1.5rem;
   }
-  
+
   .login-back-btn-wrapper {
     top: 5.5rem;
     left: 1.5rem;
   }
-  
+
   .login-card {
     margin: 1rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
-  
+
   .login-card-title {
     font-size: 1.5rem;
   }
-  
+
   .login-card-description {
     font-size: 0.9rem;
   }

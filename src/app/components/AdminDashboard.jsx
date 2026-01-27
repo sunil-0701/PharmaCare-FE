@@ -7,111 +7,269 @@ import {
   Users,
   Activity,
   TrendingUp,
-  ArrowUpRight
+  ArrowUpRight,
+  MoreVertical,
+  Calendar,
+  Filter,
+  Download
 } from "lucide-react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Cell
+} from "recharts";
 
 import "./AdminDashboard.css";
 
 const salesData = [
-  { month: "Jan", sales: 45000 },
-  { month: "Feb", sales: 52000 },
-  { month: "Mar", sales: 48000 },
-  { month: "Apr", sales: 61000 },
-  { month: "May", sales: 55000 },
-  { month: "Jun", sales: 67000 }
+  { month: "Jan", sales: 45000, revenue: 32000 },
+  { month: "Feb", sales: 52000, revenue: 38000 },
+  { month: "Mar", sales: 48000, revenue: 35000 },
+  { month: "Apr", sales: 61000, revenue: 42000 },
+  { month: "May", sales: 55000, revenue: 39000 },
+  { month: "Jun", sales: 67000, revenue: 48000 }
+];
+
+const categoryData = [
+  { name: "Antibiotics", value: 400, color: "#3B82F6" },
+  { name: "Pain Relief", value: 300, color: "#10B981" },
+  { name: "Gastro", value: 200, color: "#F59E0B" },
+  { name: "General", value: 150, color: "#6366F1" }
 ];
 
 const staffData = [
-  { id: 1, name: "John Doe", role: "Pharmacist", status: "Active", email: "john@pharmacare.com" },
-  { id: 2, name: "Jane Smith", role: "Inventory Manager", status: "Active", email: "jane@pharmacare.com" },
-  { id: 3, name: "Mike Johnson", role: "Pharmacist", status: "Active", email: "mike@pharmacare.com" },
-  { id: 4, name: "Sarah Williams", role: "Cashier", status: "Inactive", email: "sarah@pharmacare.com" }
+  { id: 1, name: "John Doe", role: "Pharmacist", status: "Active", email: "john@pharmacare.com", joined: "12 Oct 2023" },
+  { id: 2, name: "Jane Smith", role: "Inventory Manager", status: "Active", email: "jane@pharmacare.com", joined: "15 Nov 2023" },
+  { id: 3, name: "Mike Johnson", role: "Pharmacist", status: "Active", email: "mike@pharmacare.com", joined: "05 Jan 2024" },
+  { id: 4, name: "Sarah Williams", role: "Cashier", status: "Inactive", email: "sarah@pharmacare.com", joined: "22 Feb 2024" }
 ];
 
 export function AdminDashboard() {
   return (
-    <div className="dashboard-container">
-      {/* Header */}
-      <header className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <p>Overview of pharmacy operations and management</p>
-      </header>
+    <div className="admin-dashboard">
+      <div className="admin-header">
+        <div className="header-left">
+          <h1>Pharmacy Overview</h1>
+          <p>Welcome back, Admin. Here's what's happening today.</p>
+        </div>
+        <div className="header-right">
+          <div className="date-picker-button">
+            <Calendar size={18} />
+            <span>Last 30 Days</span>
+          </div>
+          <button className="export-button">
+            <Download size={18} />
+            Export Data
+          </button>
+        </div>
+      </div>
 
-      {/* Stats */}
-      <section className="stats-grid">
-        <div className="stat-card stat-green">
-          <DollarSign />
-          <h3>Total Sales</h3>
-          <p className="stat-value">₹67,890</p>
-          <span className="stat-meta">+12.5% this month</span>
+      <div className="admin-stats-row">
+        <div className="stat-card-modern">
+          <div className="stat-icon-box green">
+            <DollarSign size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-title">Total Revenue</span>
+            <div className="stat-value-group">
+              <span className="stat-number">₹2,84,590</span>
+              <span className="stat-trend trend-up">
+                <ArrowUpRight size={14} /> 12%
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="stat-card stat-blue">
-          <Package />
-          <h3>Total Medicines</h3>
-          <p className="stat-value">1,247</p>
-          <span className="stat-meta">Across all categories</span>
+        <div className="stat-card-modern">
+          <div className="stat-icon-box blue">
+            <Package size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-title">Total Products</span>
+            <div className="stat-value-group">
+              <span className="stat-number">1,247</span>
+              <span className="stat-trend trend-up">
+                <ArrowUpRight size={14} /> 4%
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="stat-card stat-orange">
-          <AlertTriangle />
-          <h3>Expiring Soon</h3>
-          <p className="stat-value">24</p>
-          <span className="stat-meta">Within 30 days</span>
+        <div className="stat-card-modern">
+          <div className="stat-icon-box orange">
+            <AlertTriangle size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-title">Near Expiry</span>
+            <div className="stat-value-group">
+              <span className="stat-number">42</span>
+              <span className="stat-trend trend-down">
+                -8%
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="stat-card stat-red">
-          <TrendingDown />
-          <h3>Low Stock</h3>
-          <p className="stat-value">18</p>
-          <span className="stat-meta">Need reordering</span>
+        <div className="stat-card-modern">
+          <div className="stat-icon-box purple">
+            <Users size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-title">Total Users</span>
+            <div className="stat-value-group">
+              <span className="stat-number">18</span>
+              <span className="stat-trend trend-up">
+                +2
+              </span>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Charts Placeholder */}
-      <section className="card">
-        <h2>Sales & Revenue</h2>
-        <p className="muted">
-          Charts removed (recharts dependency removed).  
-          You can later add charts using Chart.js or custom SVG.
-        </p>
-      </section>
+      <div className="admin-charts-grid">
+        <div className="chart-card main-chart">
+          <div className="chart-header">
+            <h3>Revenue & Sales Analysis</h3>
+            <div className="chart-actions">
+              <span className="legend-item"><span className="dot blue"></span> Revenue</span>
+              <span className="legend-item"><span className="dot light-blue"></span> Sales</span>
+            </div>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.1} />
+                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <XAxis
+                  dataKey="month"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12 }}
+                  dy={10}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12 }}
+                  tickFormatter={(value) => `₹${value / 1000}k`}
+                />
+                <Tooltip
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#3B82F6"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorRevenue)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="sales"
+                  stroke="#93C5FD"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  fill="transparent"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
-      {/* Staff Table */}
-      <section className="card">
-        <h2>Staff Overview</h2>
+        <div className="chart-card distribution-chart">
+          <div className="chart-header">
+            <h3>Inventory Distribution</h3>
+            <button className="icon-btn"><MoreVertical size={18} /></button>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={categoryData} layout="vertical" margin={{ left: -20, right: 30 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
+                <XAxis type="number" hide />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#4B5563', fontSize: 12, fontWeight: 500 }}
+                />
+                <Tooltip
+                  cursor={{ fill: 'transparent' }}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
+                  {categoryData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
 
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {staffData.map((staff) => (
-              <tr key={staff.id}>
-                <td>{staff.name}</td>
-                <td>{staff.email}</td>
-                <td>
-                  <span className="badge badge-outline">{staff.role}</span>
-                </td>
-                <td>
-                  <span
-                    className={`badge ${
-                      staff.status === "Active" ? "badge-success" : "badge-muted"
-                    }`}
-                  >
-                    {staff.status}
-                  </span>
-                </td>
+      <div className="admin-table-section">
+        <div className="table-header">
+          <h3>Staff Management</h3>
+        </div>
+
+        <div className="table-container-modern">
+          <table className="modern-table">
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Status</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+            </thead>
+            <tbody>
+              {staffData.map((staff) => (
+                <tr key={staff.id}>
+                  <td>
+                    <div className="staff-member">
+                      <div className="staff-avatar">{staff.name[0]}</div>
+                      <div className="staff-info">
+                        <div className="staff-name">{staff.name}</div>
+                        <div className="staff-email">{staff.email}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="staff-role-badge">{staff.role}</span>
+                  </td>
+                  <td>
+                    <div className="staff-joined">{staff.joined}</div>
+                  </td>
+                  <td>
+                    <span className={`status-pill ${staff.status.toLowerCase()}`}>
+                      {staff.status}
+                    </span>
+                  </td>
+                  <td className="text-right">
+                    <button className="action-dots"><MoreVertical size={16} /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
+

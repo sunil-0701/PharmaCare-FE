@@ -50,7 +50,6 @@ export function Pagination({
 
   return (
     <div className="pagination-container">
-      {/* Range indicator */}
       <div className="pagination-range">
         Showing{" "}
         <span className="pagination-range-highlight">
@@ -62,9 +61,7 @@ export function Pagination({
         </span>
       </div>
 
-      {/* Controls */}
       <div className="pagination-controls">
-        {/* Rows per page */}
         <div className="pagination-rows-selector">
           <span className="pagination-rows-label">Rows per page:</span>
           <select
@@ -83,7 +80,6 @@ export function Pagination({
 
         <div className="pagination-divider" />
 
-        {/* Previous */}
         <button
           className="pagination-btn-small"
           onClick={handlePrevious}
@@ -92,7 +88,6 @@ export function Pagination({
           <ChevronLeft className="pagination-icon" />
         </button>
 
-        {/* Page numbers */}
         <div className="pagination-numbers">
           {getPageNumbers().map((page, index) =>
             page === "..." ? (
@@ -102,9 +97,8 @@ export function Pagination({
             ) : (
               <button
                 key={page}
-                className={`pagination-btn-small ${
-                  currentPage === page ? "pagination-btn-active" : ""
-                }`}
+                className={`pagination-btn-small ${currentPage === page ? "pagination-btn-active" : ""
+                  }`}
                 onClick={() => onPageChange(page)}
               >
                 {page}
@@ -113,7 +107,6 @@ export function Pagination({
           )}
         </div>
 
-        {/* Next */}
         <button
           className="pagination-btn-small"
           onClick={handleNext}

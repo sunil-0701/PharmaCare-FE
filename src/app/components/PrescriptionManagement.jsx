@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { usePrescriptions } from "../contexts/PrescriptionContext.jsx";
 import {
   FileText,
   Upload,
@@ -11,41 +13,8 @@ import {
   Calendar,
   UserCheck,
 } from "lucide-react";
+import { Pagination } from "./Pagination.jsx";
 import "./PrescriptionManagement.css";
-
-const initialPrescriptions = [
-  {
-    id: "RX001",
-    patientName: "John Smith",
-    patientId: "PT001",
-    doctorName: "Dr. Sarah Johnson",
-    uploadDate: "2024-12-16 10:30 AM",
-    status: "Verified",
-    medicines: ["Amoxicillin 500mg", "Paracetamol 650mg"],
-    linkedBill: "BILL-2024-001",
-    prescriptionImage: "prescription1.jpg",
-  },
-  {
-    id: "RX002",
-    patientName: "Emma Davis",
-    patientId: "PT002",
-    doctorName: "Dr. Michael Brown",
-    uploadDate: "2024-12-16 11:15 AM",
-    status: "Pending",
-    medicines: ["Metformin 500mg", "Atorvastatin 20mg"],
-    prescriptionImage: "prescription2.jpg",
-  },
-  {
-    id: "RX003",
-    patientName: "Robert Wilson",
-    patientId: "PT003",
-    doctorName: "Dr. Emily White",
-    uploadDate: "2024-12-16 09:45 AM",
-    status: "Rejected",
-    medicines: ["Controlled substance"],
-    prescriptionImage: "prescription3.jpg",
-  },
-];
 
 const patientHistory = [
   {
@@ -58,61 +27,15 @@ const patientHistory = [
 ];
 
 export function PrescriptionManagement() {
+  const navigate = useNavigate();
+  const { prescriptions, updatePrescriptionStatus } = usePrescriptions();
   const [activeTab, setActiveTab] = useState("all");
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [prescriptions, setPrescriptions] = useState(initialPrescriptions);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [pageAll, setPageAll] = useState(1);
   const [rowsAll, setRowsAll] = useState(10);
   const [pageHistory, setPageHistory] = useState(1);
   const [rowsHistory, setRowsHistory] = useState(10);
-  
-  // Form state for adding prescription
-  const [newPrescription, setNewPrescription] = useState({
-    patientId: "",
-    patientName: "",
-    doctorName: "",
-    medicines: "",
-  });
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    const date = now.toISOString().split('T')[0];
-    const time = now.toTimeString().split(' ')[0].substring(0, 5);
-    return `${date} ${time}`;
-  };
-
-  const handleAddPrescription = () => {
-    if (!newPrescription.patientId || !newPrescription.patientName || !newPrescription.doctorName || !newPrescription.medicines) {
-      alert("Please fill all required fields");
-      return;
-    }
-
-    const newId = `RX${String(prescriptions.length + 1).padStart(3, '0')}`;
-    const newRx = {
-      id: newId,
-      patientName: newPrescription.patientName,
-      patientId: newPrescription.patientId,
-      doctorName: newPrescription.doctorName,
-      uploadDate: getCurrentDateTime(),
-      status: "Pending",
-      medicines: newPrescription.medicines.split('\n').filter(m => m.trim()),
-      prescriptionImage: selectedFile ? selectedFile.name : "prescription.jpg",
-    };
-
-    setPrescriptions([...prescriptions, newRx]);
-    setNewPrescription({
-      patientId: "",
-      patientName: "",
-      doctorName: "",
-      medicines: "",
-    });
-    setSelectedFile(null);
-    setShowAddModal(false);
-    alert("Prescription added successfully!");
-  };
 
   const handleViewPrescription = (rx) => {
     setSelectedPrescription(rx);
@@ -120,22 +43,11 @@ export function PrescriptionManagement() {
   };
 
   const handleVerifyPrescription = (id) => {
-    setPrescriptions(prescriptions.map(rx => 
-      rx.id === id ? { ...rx, status: "Verified" } : rx
-    ));
+    updatePrescriptionStatus(id, "Verified");
   };
 
   const handleRejectPrescription = (id) => {
-    setPrescriptions(prescriptions.map(rx => 
-      rx.id === id ? { ...rx, status: "Rejected" } : rx
-    ));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-    }
+    updatePrescriptionStatus(id, "Rejected");
   };
 
   const filteredPrescriptions = prescriptions.filter(rx => {
@@ -152,18 +64,16 @@ export function PrescriptionManagement() {
 
   return (
     <div className="rx">
-      {/* Header */}
       <div className="rx-header">
         <div>
           <h1>Prescription Management</h1>
           <p>Add, verify, and manage prescriptions</p>
         </div>
-        <button className="btn primary" onClick={() => setShowAddModal(true)}>
+        <button className="btn primary" onClick={() => navigate('/prescriptions/add')}>
           <Plus /> Add Prescription
         </button>
       </div>
 
-      {/* Stats */}
       <div className="rx-stats">
         <div className="rx-stat">
           <FileText />
@@ -195,7 +105,6 @@ export function PrescriptionManagement() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="rx-tabs">
         {["all", "pending", "verified", "rejected", "history"].map(tab => (
           <button
@@ -208,7 +117,6 @@ export function PrescriptionManagement() {
         ))}
       </div>
 
-      {/* All Prescriptions */}
       {activeTab !== "history" && (
         <div className="rx-card">
           <table className="rx-table">
@@ -247,8 +155,8 @@ export function PrescriptionManagement() {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button 
-                        className="btn small view-btn" 
+                      <button
+                        className="btn small view-btn"
                         onClick={() => handleViewPrescription(rx)}
                         title="View Prescription"
                       >
@@ -256,14 +164,14 @@ export function PrescriptionManagement() {
                       </button>
                       {rx.status === "Pending" && (
                         <>
-                          <button 
-                            className="btn small verify-btn" 
+                          <button
+                            className="btn small verify-btn"
                             onClick={() => handleVerifyPrescription(rx.id)}
                           >
                             <CheckCircle size={14} /> Verify
                           </button>
-                          <button 
-                            className="btn small reject-btn" 
+                          <button
+                            className="btn small reject-btn"
                             onClick={() => handleRejectPrescription(rx.id)}
                           >
                             <XCircle size={14} /> Reject
@@ -280,25 +188,19 @@ export function PrescriptionManagement() {
             </tbody>
           </table>
 
-          {/* Pagination */}
-          <div className="pagination">
-            <div>Showing {((pageAll - 1) * rowsAll) + 1}-{Math.min(pageAll * rowsAll, filteredPrescriptions.length)} of {filteredPrescriptions.length}</div>
-            <div className="rows-per-page">
-              <span>Rows per page:</span>
-              <select 
-                value={rowsAll}
-                onChange={(e) => setRowsAll(Number(e.target.value))}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-              </select>
-            </div>
-          </div>
+          <Pagination
+            currentPage={pageAll}
+            totalItems={filteredPrescriptions.length}
+            rowsPerPage={rowsAll}
+            onPageChange={setPageAll}
+            onRowsPerPageChange={(rows) => {
+              setRowsAll(rows);
+              setPageAll(1);
+            }}
+          />
         </div>
       )}
 
-      {/* Patient History */}
       {activeTab === "history" && (
         <div className="rx-card">
           <div className="rx-patient">
@@ -336,96 +238,24 @@ export function PrescriptionManagement() {
             </tbody>
           </table>
 
-          <div className="pagination">
-            <div>Showing 1-{patientHistory.length} of {patientHistory.length}</div>
-            <div className="rows-per-page">
-              <span>Rows per page:</span>
-              <select 
-                value={rowsHistory}
-                onChange={(e) => setRowsHistory(Number(e.target.value))}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-              </select>
-            </div>
-          </div>
+          <Pagination
+            currentPage={pageHistory}
+            totalItems={patientHistory.length}
+            rowsPerPage={rowsHistory}
+            onPageChange={setPageHistory}
+            onRowsPerPageChange={(rows) => {
+              setRowsHistory(rows);
+              setPageHistory(1);
+            }}
+          />
         </div>
       )}
 
-      {/* Add Prescription Modal */}
-      {showAddModal && (
-        <div className="modal">
-          <div className="modal-box">
-            <h2>Add New Prescription</h2>
-            
-            <div className="form-group">
-              <label>Patient ID *</label>
-              <input 
-                placeholder="Enter patient ID (e.g., PT001)" 
-                value={newPrescription.patientId}
-                onChange={(e) => setNewPrescription({...newPrescription, patientId: e.target.value})}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Patient Name *</label>
-              <input 
-                placeholder="Enter patient name" 
-                value={newPrescription.patientName}
-                onChange={(e) => setNewPrescription({...newPrescription, patientName: e.target.value})}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Doctor Name *</label>
-              <input 
-                placeholder="Enter doctor name" 
-                value={newPrescription.doctorName}
-                onChange={(e) => setNewPrescription({...newPrescription, doctorName: e.target.value})}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Prescription Image</label>
-              <input 
-                type="file" 
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-              {selectedFile && (
-                <div className="file-info">Selected: {selectedFile.name}</div>
-              )}
-            </div>
-            
-            <div className="form-group">
-              <label>Medicines * (one per line)</label>
-              <textarea 
-                rows="4" 
-                placeholder="Enter medicines, one per line"
-                value={newPrescription.medicines}
-                onChange={(e) => setNewPrescription({...newPrescription, medicines: e.target.value})}
-              />
-            </div>
-            
-            <div className="modal-actions">
-              <button className="btn primary" onClick={handleAddPrescription}>
-                <Plus /> Add Prescription
-              </button>
-              <button className="btn" onClick={() => setShowAddModal(false)}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* View Prescription Modal */}
       {showViewModal && selectedPrescription && (
         <div className="modal">
           <div className="modal-box view-modal">
             <h2>View Prescription - {selectedPrescription.id}</h2>
-            
+
             <div className="prescription-details">
               <div className="detail-row">
                 <span className="detail-label">Patient:</span>
@@ -461,7 +291,7 @@ export function PrescriptionManagement() {
                 </div>
               </div>
             </div>
-            
+
             <div className="modal-actions">
               <button className="btn primary" onClick={() => window.open(`#${selectedPrescription.prescriptionImage}`, '_blank')}>
                 <Eye /> View Full Image
