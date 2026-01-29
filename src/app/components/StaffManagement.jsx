@@ -9,68 +9,55 @@ import {
   UserX,
   Mail,
   Phone,
-  Calendar,
   Shield,
   X,
   MoreVertical,
   Check
 } from "lucide-react";
 import { toast } from "sonner";
-
-const initialStaffMembers = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john@pharmacare.com",
-    role: "Pharmacist",
-    status: "Active",
-    joinDate: "2023-01-15",
-    phone: "+1 234-567-8900",
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    email: "jane@pharmacare.com",
-    role: "Inventory Manager",
-    status: "Active",
-    joinDate: "2023-03-20",
-    phone: "+1 234-567-8901",
-  },
-  {
-    id: "3",
-    name: "Mike Johnson",
-    email: "mike@pharmacare.com",
-    role: "Pharmacist",
-    status: "Active",
-    joinDate: "2023-05-10",
-    phone: "+1 234-567-8902",
-  },
-];
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 export function StaffManagement() {
+  const { users, registerStaff, deleteStaff, updateStaffStatus } = useAuth();
   const [showAdd, setShowAdd] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [selectedStaff, setSelectedStaff] = useState(null);
+
+  // Form State
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    role: "pharmacist",
+    password: ""
+  });
 
   const handleAddStaff = () => {
-    toast.success("Staff member added successfully");
+    if (!newStaff.name || !newStaff.email || !newStaff.password) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    registerStaff(newStaff);
     setShowAdd(false);
+    setNewStaff({
+      name: "",
+      email: "",
+      phone: "",
+      role: "pharmacist",
+      password: ""
+    });
   };
 
-  const handleEditStaff = () => {
-    toast.success("Staff details updated");
-    setShowEdit(false);
-    setSelectedStaff(null);
-  };
 
-  const handleDeleteStaff = (name) => {
-    if (window.confirm(`Are you sure you want to remove ${name}?`)) {
-      toast.success(`${name} has been removed`);
+  const handleDeleteStaff = (staff) => {
+    if (window.confirm(`Are you sure you want to remove ${staff.name}?`)) {
+      deleteStaff(staff.id);
+      toast.success(`${staff.name} has been removed`);
     }
   };
 
-  const toggleStatus = (name, status) => {
+  const toggleStatus = (id, name, status) => {
     const newStatus = status === "Active" ? "Inactive" : "Active";
+    updateStaffStatus(id, newStatus);
     toast.success(`${name} is now ${newStatus}`);
   };
 
@@ -93,7 +80,7 @@ export function StaffManagement() {
           </div>
           <div className="stat-info">
             <span className="stat-label">Total Members</span>
-            <span className="stat-value">{initialStaffMembers.length}</span>
+            <span className="stat-value">{users.length}</span>
           </div>
         </div>
 
@@ -103,7 +90,7 @@ export function StaffManagement() {
           </div>
           <div className="stat-info">
             <span className="stat-label">Active Now</span>
-            <span className="stat-value">{initialStaffMembers.filter(s => s.status === "Active").length}</span>
+            <span className="stat-value">{users.filter(s => s.status === "Active").length}</span>
           </div>
         </div>
 
@@ -113,7 +100,7 @@ export function StaffManagement() {
           </div>
           <div className="stat-info">
             <span className="stat-label">Admin Roles</span>
-            <span className="stat-value">2</span>
+            <span className="stat-value">{users.filter(s => s.role === "admin").length}</span>
           </div>
         </div>
       </div>
@@ -139,52 +126,42 @@ export function StaffManagement() {
               </tr>
             </thead>
             <tbody>
-              {initialStaffMembers.map((staff) => (
+              {users.map((staff) => (
                 <tr key={staff.id}>
                   <td>
                     <div className="staff-profile">
                       <div className="profile-avatar">{staff.name[0]}</div>
                       <div className="profile-info">
                         <span className="profile-name">{staff.name}</span>
-                        <span className="profile-id">ID: PC-{staff.id.padStart(3, '0')}</span>
+                        <span className="profile-id">ID: PC-{String(staff.id).padStart(3, '0')}</span>
                       </div>
                     </div>
                   </td>
                   <td>
                     <div className="contact-details">
                       <div className="contact-item"><Mail size={12} /> {staff.email}</div>
-                      <div className="contact-item"><Phone size={12} /> {staff.phone}</div>
+                      <div className="contact-item"><Phone size={12} /> {staff.phone || '-'}</div>
                     </div>
                   </td>
                   <td><span className="role-tag">{staff.role}</span></td>
-                  <td><div className="join-date">{staff.joinDate}</div></td>
+                  <td><div className="join-date">{staff.joinDate || '-'}</div></td>
                   <td>
-                    <span className={`status-badge ${staff.status.toLowerCase()}`}>
-                      {staff.status}
+                    <span className={`status-badge ${(staff.status || 'Active').toLowerCase()}`}>
+                      {staff.status || 'Active'}
                     </span>
                   </td>
                   <td className="actions-cell">
                     <div className="action-button-group">
                       <button
-                        className="action-icon-btn edit"
-                        onClick={() => {
-                          setSelectedStaff(staff);
-                          setShowEdit(true);
-                        }}
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
                         className="action-icon-btn status"
-                        onClick={() => toggleStatus(staff.name, staff.status)}
+                        onClick={() => toggleStatus(staff.id, staff.name, staff.status)}
                         title="Toggle Status"
                       >
                         {staff.status === "Active" ? <UserX size={16} /> : <UserCheck size={16} />}
                       </button>
                       <button
                         className="action-icon-btn delete"
-                        onClick={() => handleDeleteStaff(staff.name)}
+                        onClick={() => handleDeleteStaff(staff)}
                         title="Delete"
                       >
                         <Trash2 size={16} />
@@ -217,7 +194,12 @@ export function StaffManagement() {
                   <label>Full Name</label>
                   <div className="input-with-icon">
                     <Users size={18} className="field-icon" />
-                    <input type="text" placeholder="e.g. Robert Smith" />
+                    <input
+                      type="text"
+                      placeholder="e.g. Robert Smith"
+                      value={newStaff.name}
+                      onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
+                    />
                   </div>
                 </div>
 
@@ -225,7 +207,12 @@ export function StaffManagement() {
                   <label>Email Address</label>
                   <div className="input-with-icon">
                     <Mail size={18} className="field-icon" />
-                    <input type="email" placeholder="robert@pharmacare.com" />
+                    <input
+                      type="email"
+                      placeholder="robert@pharmacare.com"
+                      value={newStaff.email}
+                      onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
+                    />
                   </div>
                 </div>
 
@@ -233,7 +220,12 @@ export function StaffManagement() {
                   <label>Phone Number</label>
                   <div className="input-with-icon">
                     <Phone size={18} className="field-icon" />
-                    <input type="tel" placeholder="+91 98765 43210" />
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={newStaff.phone}
+                      onChange={(e) => setNewStaff({ ...newStaff, phone: e.target.value })}
+                    />
                   </div>
                 </div>
 
@@ -241,20 +233,27 @@ export function StaffManagement() {
                   <label>Role</label>
                   <div className="input-with-icon">
                     <Shield size={18} className="field-icon" />
-                    <select>
-                      <option value="Admin">Admin</option>
-                      <option value="Pharmacist">Pharmacist</option>
-                      <option value="Inventory Manager">Inventory Manager</option>
-                      <option value="Cashier">Cashier</option>
+                    <select
+                      value={newStaff.role}
+                      onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="pharmacist">Pharmacist</option>
+                      <option value="inventory">Inventory Manager</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="form-group-premium full-width">
-                  <label>Temporary Password</label>
+                  <label> Password</label>
                   <div className="input-with-icon">
                     <Check size={18} className="field-icon" />
-                    <input type="password" placeholder="••••••••" />
+                    <input
+                      type="password"
+                      placeholder="••••••••"
+                      value={newStaff.password}
+                      onChange={(e) => setNewStaff({ ...newStaff, password: e.target.value })}
+                    />
                   </div>
                 </div>
               </div>
@@ -268,54 +267,6 @@ export function StaffManagement() {
         </div>
       )}
 
-      {showEdit && selectedStaff && (
-        <div className="premium-modal-overlay">
-          <div className="premium-modal">
-            <div className="modal-header-premium">
-              <div>
-                <h2>Edit Staff Profile</h2>
-                <p>Modify details for {selectedStaff.name}</p>
-              </div>
-              <button className="modal-close-btn" onClick={() => setShowEdit(false)}>
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="modal-body-premium">
-              <div className="form-grid-premium">
-                <div className="form-group-premium">
-                  <label>Full Name</label>
-                  <input type="text" defaultValue={selectedStaff.name} />
-                </div>
-
-                <div className="form-group-premium">
-                  <label>Email Address</label>
-                  <input type="email" defaultValue={selectedStaff.email} />
-                </div>
-
-                <div className="form-group-premium">
-                  <label>Phone Number</label>
-                  <input type="tel" defaultValue={selectedStaff.phone} />
-                </div>
-
-                <div className="form-group-premium">
-                  <label>Role</label>
-                  <select defaultValue={selectedStaff.role}>
-                    <option value="Pharmacist">Pharmacist</option>
-                    <option value="Inventory Manager">Inventory Manager</option>
-                    <option value="Admin">Admin</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-footer-premium">
-              <button className="btn-cancel" onClick={() => setShowEdit(false)}>Cancel</button>
-              <button className="btn-submit" onClick={handleEditStaff}>Save Changes</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

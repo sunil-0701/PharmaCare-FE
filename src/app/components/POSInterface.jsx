@@ -10,6 +10,8 @@ import {
   Info,
 } from "lucide-react";
 import { Pagination } from "./Pagination.jsx";
+import { useSales } from "../contexts/SalesContext.jsx";
+import { useAuth } from "../contexts/AuthContext.jsx";
 import "./POSInterface.css";
 
 const medicines = [
@@ -21,6 +23,8 @@ const medicines = [
 ];
 
 export function POSInterface() {
+  const { user } = useAuth();
+  const { addSale } = useSales();
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [customerName, setCustomerName] = useState("");
@@ -87,6 +91,7 @@ export function POSInterface() {
   };
 
   const printReceipt = () => {
+    addSale(total, user?.id);
     alert("Receipt printed successfully!");
     setCart([]);
     setCustomerName("");
@@ -108,10 +113,10 @@ export function POSInterface() {
             <p>Healthcare System</p>
           </div>
           <div className="pos-user-badge">
-            <div className="user-role">Role: Pharmacist</div>
+            <div className="user-role">Role: {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Staff'}</div>
             <div className="user-details">
-              <div>John Pharmacist</div>
-              <div>pharmacist@pharmacare.com</div>
+              <div>{user?.name || 'Authorized Staff'}</div>
+              <div>{user?.email || 'Logged in'}</div>
             </div>
           </div>
         </div>

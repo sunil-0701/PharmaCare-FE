@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, Outlet, useLocation, useNavigate } from 'react
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import { PrescriptionProvider } from './contexts/PrescriptionContext.jsx';
 import { InventoryProvider } from './contexts/InventoryContext.jsx';
+import { SalesProvider } from './contexts/SalesContext.jsx';
 import { LandingPage } from './components/LandingPage.jsx';
 import { LoginPage } from './components/LoginPage.jsx';
 import { Sidebar } from './components/Sidebar.jsx';
@@ -122,10 +123,11 @@ export default function App() {
     <AuthProvider>
       <PrescriptionProvider>
         <InventoryProvider>
-          <MainApp />
+          <SalesProvider>
+            <MainApp />
+          </SalesProvider>
         </InventoryProvider>
       </PrescriptionProvider>
     </AuthProvider>
   );
 }
-

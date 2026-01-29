@@ -7,13 +7,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import {
-  BarChart,
-  Bar,
   LineChart,
   Line,
-  PieChart,
-  Pie,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -22,45 +17,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { toast } from "sonner";
+import { useSales } from "../contexts/SalesContext.jsx";
+import { useAuth } from "../contexts/AuthContext.jsx";
 import "./ReportsAnalytics.css";
-
-const salesData = [
-  { month: "Jan", sales: 45000, profit: 12000 },
-  { month: "Feb", sales: 52000, profit: 14500 },
-  { month: "Mar", sales: 48000, profit: 13200 },
-  { month: "Apr", sales: 61000, profit: 16800 },
-  { month: "May", sales: 55000, profit: 15100 },
-  { month: "Jun", sales: 67000, profit: 18500 },
-];
-
-const categoryData = [
-  { name: "Pain Relief", value: 35 },
-  { name: "Antibiotics", value: 25 },
-  { name: "Vitamins", value: 20 },
-  { name: "Cardiovascular", value: 15 },
-  { name: "Others", value: 5 },
-];
 
 const expiryReport = [
   { medicine: "Paracetamol 500mg", batch: "BT001", expiry: "2025-01-15", quantity: 120, value: 660 },
   { medicine: "Cetirizine 10mg", batch: "BT004", expiry: "2025-02-10", quantity: 80, value: 480 },
 ];
 
-const staffPerformance = [
-  { name: "John Doe", sales: 45200 },
-  { name: "Jane Smith", sales: 38900 },
-  { name: "Mike Johnson", sales: 52100 },
-];
-
-const COLORS = ["#059669", "#0ea5e9", "#f59e0b", "#8b5cf6", "#6b7280"];
-
 export function ReportsAnalytics() {
+  const { users } = useAuth();
+  const { salesData, totalSales, totalTransactions, avgTicket, staffSales } = useSales();
   const [tab, setTab] = useState("sales");
   const [dateFrom, setDateFrom] = useState("2024-01-01");
   const [dateTo, setDateTo] = useState("2024-12-16");
   const [reportType, setReportType] = useState("sales");
 
   const exportPDF = () => toast.success("Report exported as PDF");
+
+  const pharmacists = users.filter(u => u.role === "pharmacist");
+  const maxSales = Math.max(...Object.values(staffSales), 60000);
 
   return (
     <div className="reports">
@@ -111,52 +88,38 @@ export function ReportsAnalytics() {
             <div className="stat-card">
               <DollarSign />
               <div>
-                <strong>₹328,000</strong>
+                <strong>₹{totalSales.toLocaleString()}</strong>
                 <span>Total Sales</span>
               </div>
             </div>
             <div className="stat-card">
               <TrendingUp />
               <div>
-                <strong>2,487</strong>
+                <strong>{totalTransactions.toLocaleString()}</strong>
                 <span>Transactions</span>
               </div>
             </div>
             <div className="stat-card">
               <BarChart3 />
               <div>
-                <strong>₹131.86</strong>
+                <strong>₹{avgTicket.toFixed(2)}</strong>
                 <span>Avg Ticket</span>
               </div>
             </div>
           </div>
 
-          <div className="chart-grid">
+          <div className="chart-grid single-col">
             <div className="card">
               <h3>Monthly Sales</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={salesData}>
+                <LineChart data={salesData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="sales" fill="#059669" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="card">
-              <h3>Sales by Category</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie data={categoryData} dataKey="value" outerRadius={90}>
-                    {categoryData.map((_, i) => (
-                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
+                  <Line type="monotone" dataKey="sales" stroke="#059669" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -211,18 +174,24 @@ export function ReportsAnalytics() {
       {tab === "staff" && (
         <div className="card">
           <h3>Staff Performance</h3>
-          {staffPerformance.map((s) => (
-            <div key={s.name} className="staff-row">
-              <span>{s.name}</span>
-              <div className="progress">
-                <div style={{ width: `${(s.sales / 60000) * 100}%` }} />
+          {pharmacists.map((s) => {
+            const performance = staffSales[s.id] || 0;
+            const percentage = Math.round((performance / maxSales) * 100);
+            return (
+              <div key={s.id} className="staff-row">
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: '600' }}>{s.name}</span>
+                  <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>₹{performance.toLocaleString()}</span>
+                </div>
+                <div className="progress">
+                  <div style={{ width: `${percentage}%` }} />
+                </div>
+                <span>{percentage}%</span>
               </div>
-              <span>{Math.round((s.sales / 60000) * 100)}%</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
-

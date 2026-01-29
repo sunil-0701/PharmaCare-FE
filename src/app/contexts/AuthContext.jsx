@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { toast } from 'sonner';
 
 const AuthContext = createContext(undefined);
 
@@ -27,14 +28,26 @@ const VALID_USERS = [
 ];
 
 export function AuthProvider({ children }) {
+  const [users, setUsers] = useState(() => {
+    const stored = localStorage.getItem('pharmacare_users');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return VALID_USERS;
+      }
+    }
+    return VALID_USERS;
+  });
+
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('pharmacare_user');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        const isValidUser = VALID_USERS.some(validUser =>
-          validUser.email === parsed.email &&
-          validUser.role === parsed.role
+        const isValidUser = users.some(u =>
+          u.email === parsed.email &&
+          u.role === parsed.role
         );
         return isValidUser ? parsed : null;
       } catch {
@@ -46,9 +59,9 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    const foundUser = VALID_USERS.find(user =>
-      user.email.toLowerCase() === email.toLowerCase() &&
-      user.password === password
+    const foundUser = users.find(u =>
+      u.email.toLowerCase() === email.toLowerCase() &&
+      u.password === password
     );
 
     if (!foundUser) {
@@ -67,6 +80,36 @@ export function AuthProvider({ children }) {
     return userData;
   };
 
+  const registerStaff = (staffData) => {
+    const newId = String(users.length + 1);
+    const newUser = {
+      ...staffData,
+      id: newId,
+      status: "Active",
+      joinDate: new Date().toISOString().split('T')[0]
+    };
+
+    const updatedUsers = [...users, newUser];
+    setUsers(updatedUsers);
+    localStorage.setItem('pharmacare_users', JSON.stringify(updatedUsers));
+    toast.success("Staff member registered successfully");
+    return newUser;
+  };
+
+  const deleteStaff = (id) => {
+    const updatedUsers = users.filter(u => u.id !== id);
+    setUsers(updatedUsers);
+    localStorage.setItem('pharmacare_users', JSON.stringify(updatedUsers));
+  };
+
+  const updateStaffStatus = (id, newStatus) => {
+    const updatedUsers = users.map(u =>
+      u.id === id ? { ...u, status: newStatus } : u
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem('pharmacare_users', JSON.stringify(updatedUsers));
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('pharmacare_user');
@@ -75,10 +118,13 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       user,
+      users,
       login,
       logout,
-      isAuthenticated: !!user,
-      validUsers: VALID_USERS
+      registerStaff,
+      deleteStaff,
+      updateStaffStatus,
+      isAuthenticated: !!user
     }}>
       {children}
     </AuthContext.Provider>

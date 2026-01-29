@@ -25,33 +25,20 @@ import {
   Bar,
   Cell
 } from "recharts";
+import { useSales } from "../contexts/SalesContext.jsx";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 import "./AdminDashboard.css";
 
-const salesData = [
-  { month: "Jan", sales: 45000, revenue: 32000 },
-  { month: "Feb", sales: 52000, revenue: 38000 },
-  { month: "Mar", sales: 48000, revenue: 35000 },
-  { month: "Apr", sales: 61000, revenue: 42000 },
-  { month: "May", sales: 55000, revenue: 39000 },
-  { month: "Jun", sales: 67000, revenue: 48000 }
-];
 
-const categoryData = [
-  { name: "Antibiotics", value: 400, color: "#3B82F6" },
-  { name: "Pain Relief", value: 300, color: "#10B981" },
-  { name: "Gastro", value: 200, color: "#F59E0B" },
-  { name: "General", value: 150, color: "#6366F1" }
-];
 
-const staffData = [
-  { id: 1, name: "John Doe", role: "Pharmacist", status: "Active", email: "john@pharmacare.com", joined: "12 Oct 2023" },
-  { id: 2, name: "Jane Smith", role: "Inventory Manager", status: "Active", email: "jane@pharmacare.com", joined: "15 Nov 2023" },
-  { id: 3, name: "Mike Johnson", role: "Pharmacist", status: "Active", email: "mike@pharmacare.com", joined: "05 Jan 2024" },
-  { id: 4, name: "Sarah Williams", role: "Cashier", status: "Inactive", email: "sarah@pharmacare.com", joined: "22 Feb 2024" }
-];
+
+
+
 
 export function AdminDashboard() {
+  const { users } = useAuth();
+  const { totalSales, salesData } = useSales();
   return (
     <div className="admin-dashboard">
       <div className="admin-header">
@@ -79,7 +66,7 @@ export function AdminDashboard() {
           <div className="stat-content">
             <span className="stat-title">Total Revenue</span>
             <div className="stat-value-group">
-              <span className="stat-number">₹2,84,590</span>
+              <span className="stat-number">₹{totalSales.toLocaleString()}</span>
               <span className="stat-trend trend-up">
                 <ArrowUpRight size={14} /> 12%
               </span>
@@ -124,9 +111,9 @@ export function AdminDashboard() {
           <div className="stat-content">
             <span className="stat-title">Total Users</span>
             <div className="stat-value-group">
-              <span className="stat-number">18</span>
+              <span className="stat-number">{users.length}</span>
               <span className="stat-trend trend-up">
-                +2
+                +{users.filter(u => u.status === "Active").length} Active
               </span>
             </div>
           </div>
@@ -170,7 +157,7 @@ export function AdminDashboard() {
                 />
                 <Area
                   type="monotone"
-                  dataKey="revenue"
+                  dataKey="sales"
                   stroke="#3B82F6"
                   strokeWidth={3}
                   fillOpacity={1}
@@ -178,7 +165,7 @@ export function AdminDashboard() {
                 />
                 <Area
                   type="monotone"
-                  dataKey="sales"
+                  dataKey="profit"
                   stroke="#93C5FD"
                   strokeWidth={2}
                   strokeDasharray="5 5"
@@ -189,36 +176,7 @@ export function AdminDashboard() {
           </div>
         </div>
 
-        <div className="chart-card distribution-chart">
-          <div className="chart-header">
-            <h3>Inventory Distribution</h3>
-            <button className="icon-btn"><MoreVertical size={18} /></button>
-          </div>
-          <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={categoryData} layout="vertical" margin={{ left: -20, right: 30 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
-                <XAxis type="number" hide />
-                <YAxis
-                  dataKey="name"
-                  type="category"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#4B5563', fontSize: 12, fontWeight: 500 }}
-                />
-                <Tooltip
-                  cursor={{ fill: 'transparent' }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
-                  {categoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+
       </div>
 
       <div className="admin-table-section">
@@ -238,7 +196,7 @@ export function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {staffData.map((staff) => (
+              {users.map((staff) => (
                 <tr key={staff.id}>
                   <td>
                     <div className="staff-member">
@@ -250,14 +208,16 @@ export function AdminDashboard() {
                     </div>
                   </td>
                   <td>
-                    <span className="staff-role-badge">{staff.role}</span>
+                    <span className="staff-role-badge">
+                      {staff.role.charAt(0).toUpperCase() + staff.role.slice(1)}
+                    </span>
                   </td>
                   <td>
-                    <div className="staff-joined">{staff.joined}</div>
+                    <div className="staff-joined">{staff.joinDate || 'Jan 2024'}</div>
                   </td>
                   <td>
-                    <span className={`status-pill ${staff.status.toLowerCase()}`}>
-                      {staff.status}
+                    <span className={`status-pill ${(staff.status || 'Active').toLowerCase()}`}>
+                      {staff.status || 'Active'}
                     </span>
                   </td>
                   <td className="text-right">
