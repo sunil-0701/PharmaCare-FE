@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Settings, Bell } from "lucide-react";
 import { toast } from "sonner";
-import "./SettingsPage.css";
 
 export function SettingsPage() {
   const [tab, setTab] = useState("general");
@@ -11,118 +10,181 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="settings-page">
-      <div className="settings-header">
-        <h1>System Settings</h1>
-        <p>Configure application preferences and system settings</p>
+    <div className="p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-10">
+      <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+        <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none">System Architecture</h1>
+        <p className="text-slate-500 font-medium mt-3 uppercase tracking-widest text-[0.65rem] leading-none">Cloud Configuration & Global Prefereces</p>
       </div>
 
-      <div className="settings-tabs">
+      <div className="flex items-center gap-2 p-1.5 bg-slate-200/50 rounded-2xl w-fit">
         <button
-          className={tab === "general" ? "tab active" : "tab"}
+          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all ${tab === "general"
+            ? "bg-white text-emerald-600 shadow-sm shadow-slate-200"
+            : "text-slate-500 hover:text-slate-900"
+            }`}
           onClick={() => setTab("general")}
         >
-          General
+          General Core
         </button>
         <button
-          className={tab === "notifications" ? "tab active" : "tab"}
+          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all ${tab === "notifications"
+            ? "bg-white text-emerald-600 shadow-sm shadow-slate-200"
+            : "text-slate-500 hover:text-slate-900"
+            }`}
           onClick={() => setTab("notifications")}
         >
-          Notifications
+          Signal Alerts
         </button>
       </div>
 
       {tab === "general" && (
-        <div className="card">
-          <div className="card-header">
-            <div className="icon-box green">
-              <Settings />
+        <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/40 animate-in fade-in duration-500">
+          <div className="flex items-center gap-6 mb-12 pb-10 border-b border-slate-50">
+            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-50">
+              <Settings size={28} />
             </div>
             <div>
-              <h2>General Settings</h2>
-              <p>Configure basic application settings</p>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">System Identity</h2>
+              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Base Operating Parameters</p>
             </div>
           </div>
 
-          <div className="card-body">
-            <label>Pharmacy Name</label>
-            <input defaultValue="PharmaCare" />
+          <div className="space-y-10">
+            <div className="space-y-3">
+              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Entity Nomenclature</label>
+              <input
+                className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                defaultValue="PharmaCare Pro"
+              />
+            </div>
 
-            <label>Business Address</label>
-            <input defaultValue="123 Medical Street, Health City" />
+            <div className="space-y-3">
+              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Geospatial Address</label>
+              <input
+                className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                defaultValue="123 Medical Street, Health City, Sector 7"
+              />
+            </div>
 
-            <div className="two-col">
-              <div>
-                <label>Phone Number</label>
-                <input defaultValue="+1 234-567-8900" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Communication Line</label>
+                <input
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                  defaultValue="+91 234-567-8900"
+                />
               </div>
-              <div>
-                <label>Email</label>
-                <input type="email" defaultValue="contact@pharmacare.com" />
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Secure Email Gateway</label>
+                <input
+                  type="email"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                  defaultValue="ops@pharmacare.io"
+                />
               </div>
             </div>
 
-            <hr />
+            <div className="h-px bg-slate-100" />
 
-            <label>Currency</label>
-            <select defaultValue="inr">
-              <option value="usd">USD ($)</option>
-              <option value="eur">EUR (€)</option>
-              <option value="gbp">GBP (£)</option>
-              <option value="inr">INR (₹)</option>
-            </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Monetary Token</label>
+                <select
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all appearance-none cursor-pointer"
+                  defaultValue="inr"
+                >
+                  <option value="usd">USD - United States Dollar ($)</option>
+                  <option value="eur">EUR - European Euro (€)</option>
+                  <option value="gbp">GBP - British Pound (£)</option>
+                  <option value="inr">INR - Indian Rupee (₹)</option>
+                </select>
+              </div>
 
-            <label>Time Zone</label>
-            <select defaultValue="ist">
-              <option value="est">EST</option>
-              <option value="pst">PST</option>
-              <option value="cst">CST</option>
-              <option value="mst">MST</option>
-              <option value="ist">IST</option>
-            </select>
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Temporal Zone</label>
+                <select
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all appearance-none cursor-pointer"
+                  defaultValue="ist"
+                >
+                  <option value="est">EST - Eastern Standard Time</option>
+                  <option value="pst">PST - Pacific Standard Time</option>
+                  <option value="cst">CST - Central Standard Time</option>
+                  <option value="mst">MST - Mountain Standard Time</option>
+                  <option value="ist">IST - Indian Standard Time</option>
+                </select>
+              </div>
+            </div>
 
-            <button className="btn primary" onClick={handleSave}>
-              Save Changes
+            <button
+              className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
+              onClick={handleSave}
+            >
+              Commit Changes
             </button>
           </div>
         </div>
       )}
 
       {tab === "notifications" && (
-        <div className="card">
-          <div className="card-header">
-            <div className="icon-box blue">
-              <Bell />
+        <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/40 animate-in fade-in duration-500">
+          <div className="flex items-center gap-6 mb-12 pb-10 border-b border-slate-50">
+            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-50">
+              <Bell size={28} />
             </div>
             <div>
-              <h2>Notification Settings</h2>
-              <p>Manage alert and notification preferences</p>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Signal Matrix</h2>
+              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Autonomous Alert Protocols</p>
             </div>
           </div>
 
-          <div className="card-body">
-            {[
-              "Low Stock Alerts",
-              "Expiry Alerts",
-              "New Order Notifications",
-              "Daily Sales Report",
-            ].map((label, index) => (
-              <div key={index} className="switch-row">
-                <span>{label}</span>
-                <input type="checkbox" defaultChecked={index < 3} />
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: "Critical Stock Depletion", desc: "Alert when inventory falls below threshold" },
+                { label: "Molecular Expiry Matrix", desc: "Proactive notice for aging medicine batches" },
+                { label: "System Order Sync", desc: "Notifications for successful procurement logs" },
+                { label: "Daily Intelligence Brief", desc: "Automated end-of-day financial summaries" },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl group hover:border-emerald-200 hover:bg-emerald-50/30 transition-all">
+                  <div>
+                    <div className="text-sm font-bold text-slate-900">{item.label}</div>
+                    <p className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mt-1 group-hover:text-emerald-500 transition-colors">{item.desc}</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" className="sr-only peer" defaultChecked={index < 3} />
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-500/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            <div className="h-px bg-slate-100 my-8" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Low Stock Trigger Limit</label>
+                <input
+                  type="number"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                  defaultValue="50"
+                />
               </div>
-            ))}
 
-            <hr />
+              <div className="space-y-3">
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Warning Horizon (Days)</label>
+                <input
+                  type="number"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                  defaultValue="90"
+                />
+              </div>
+            </div>
 
-            <label>Low Stock Threshold</label>
-            <input type="number" defaultValue="50" />
-
-            <label>Expiry Warning Period (days)</label>
-            <input type="number" defaultValue="90" />
-
-            <button className="btn primary" onClick={handleSave}>
-              Save Preferences
+            <button
+              className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
+              onClick={handleSave}
+            >
+              Update Protocols
             </button>
           </div>
         </div>

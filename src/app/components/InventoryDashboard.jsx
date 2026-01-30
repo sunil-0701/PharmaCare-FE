@@ -17,18 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useInventory } from "../contexts/InventoryContext.jsx";
 import { Pagination } from "./Pagination.jsx";
-import "./InventoryDashboard.css";
-
-const knownMedicines = [
-  "Paracetamol 500mg",
-  "Amoxicillin 250mg",
-  "Ibuprofen 400mg",
-  "Cetirizine 10mg",
-  "Omeprazole 20mg",
-  "Aspirin 75mg",
-  "Metformin 500mg",
-  "Atorvastatin 20mg"
-];
+import { toast } from "sonner";
 
 export function InventoryDashboard() {
   const navigate = useNavigate();
@@ -90,7 +79,7 @@ export function InventoryDashboard() {
     deleteBatch(itemToDelete);
     setShowDeleteModal(false);
     setItemToDelete(null);
-    alert("Medicine batch deleted successfully");
+    toast.success("Medicine batch deleted successfully");
   };
 
   const applyFilters = () => {
@@ -107,94 +96,99 @@ export function InventoryDashboard() {
   };
 
   return (
-    <div className="inventory-dashboard">
-      <div className="inventory-header">
+    <div className="flex flex-col gap-6 bg-gray-50 min-h-screen p-4 md:p-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start bg-white p-5 rounded-xl border border-gray-200 gap-4">
         <div>
-          <h1>Inventory Management</h1>
-          <p>Monitor stock levels and expiry dates</p>
+          <h1 className="text-2xl font-bold text-gray-900 leading-none">Inventory Management</h1>
+          <p className="text-gray-500 text-[0.9rem] mt-1">Monitor stock levels and expiry dates</p>
         </div>
-        <div className="user-info">
-          <div className="user-role">Logged in as</div>
-          <div className="user-name">Inventory Manager</div>
-          <div className="user-email">inventory@pharmacare.com</div>
+        <div className="text-left lg:text-right">
+          <div className="text-[0.8rem] text-gray-400">Logged in as</div>
+          <div className="font-semibold text-gray-900 leading-tight">Inventory Manager</div>
+          <div className="text-[0.8rem] text-gray-500">inventory@pharmacare.com</div>
         </div>
       </div>
 
-      <div className="stats-cards">
-        <div className="stat-card">
-          <div className="stat-icon-wrapper blue">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-blue-50 text-blue-600">
             <Package size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{totalItems}</div>
-            <div className="stat-label">Total Items</div>
-            <div className="stat-subtitle">Unique medicines</div>
+          <div className="flex flex-col">
+            <div className="text-3xl font-bold text-gray-900 leading-tight">{totalItems}</div>
+            <div className="text-sm font-semibold text-gray-600">Total Items</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5">Unique medicines</div>
           </div>
         </div>
-        <div className="stat-card low-stock">
-          <div className="stat-icon-wrapper red">
+
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-red-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-red-50 text-red-600">
             <AlertTriangle size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{lowStockItems}</div>
-            <div className="stat-label">Low Stock</div>
-            <div className="stat-subtitle">Need reordering</div>
+          <div className="flex flex-col">
+            <div className="text-3xl font-bold text-gray-900 leading-tight">{lowStockItems}</div>
+            <div className="text-sm font-semibold text-gray-600">Low Stock</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5">Need reordering</div>
           </div>
         </div>
-        <div className="stat-card expiring">
-          <div className="stat-icon-wrapper orange">
+
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-amber-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-amber-50 text-amber-600">
             <AlertTriangle size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{expiringSoonItems}</div>
-            <div className="stat-label">Expiring Soon</div>
-            <div className="stat-subtitle">Within 90 days</div>
+          <div className="flex flex-col">
+            <div className="text-3xl font-bold text-gray-900 leading-tight">{expiringSoonItems}</div>
+            <div className="text-sm font-semibold text-gray-600">Expiring Soon</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5">Within 90 days</div>
           </div>
         </div>
-        <div className="stat-card well-stocked">
-          <div className="stat-icon-wrapper green">
+
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-emerald-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-emerald-50 text-emerald-600">
             <TrendingUp size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{wellStockedItems}</div>
-            <div className="stat-label">Well Stocked</div>
-            <div className="stat-subtitle">Adequate stock</div>
+          <div className="flex flex-col">
+            <div className="text-3xl font-bold text-gray-900 leading-tight">{wellStockedItems}</div>
+            <div className="text-sm font-semibold text-gray-600">Well Stocked</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5">Adequate stock</div>
           </div>
         </div>
       </div>
 
-      <div className="actions-bar">
-        <div className="search-box">
-          <Search size={18} />
+      <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-gray-200 gap-4">
+        <div className="relative w-full sm:w-[300px]">
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Search medicines..."
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="action-buttons">
-          <div className="filter-container">
+        <div className="flex gap-3 w-full sm:w-auto">
+          <div className="relative">
             <button
-              className="btn-secondary"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-all"
               onClick={() => setShowFilterModal(!showFilterModal)}
             >
               <Filter size={16} /> Filter
             </button>
 
             {showFilterModal && (
-              <div className="filter-popover">
-                <div className="popover-header">
-                  <h4>Filter Inventory</h4>
-                  <button className="close-btn-small" onClick={() => setShowFilterModal(false)}>
+              <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 p-5 z-[1000] animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-100">
+                  <h4 className="text-[0.95rem] font-bold text-gray-900">Filter Inventory</h4>
+                  <button className="bg-gray-100 text-gray-500 w-6 h-6 rounded-full flex items-center justify-center hover:bg-gray-200" onClick={() => setShowFilterModal(false)}>
                     <X size={14} />
                   </button>
                 </div>
 
-                <div className="filter-body">
-                  <div className="filter-group">
-                    <label>Status</label>
+                <div className="space-y-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest">Status</label>
                     <select
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium"
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
                     >
@@ -205,9 +199,10 @@ export function InventoryDashboard() {
                     </select>
                   </div>
 
-                  <div className="filter-group">
-                    <label>Supplier</label>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest">Supplier</label>
                     <select
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium"
                       value={filterSupplier}
                       onChange={(e) => setFilterSupplier(e.target.value)}
                     >
@@ -219,9 +214,10 @@ export function InventoryDashboard() {
                     </select>
                   </div>
 
-                  <div className="filter-group">
-                    <label>Expiry</label>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest">Expiry</label>
                     <select
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium"
                       value={filterExpiry}
                       onChange={(e) => setFilterExpiry(e.target.value)}
                     >
@@ -232,16 +228,16 @@ export function InventoryDashboard() {
                   </div>
                 </div>
 
-                <div className="popover-actions">
-                  <button className="btn-apply" onClick={applyFilters}>Apply</button>
-                  <button className="btn-clear" onClick={clearFilters}>Clear</button>
+                <div className="grid grid-cols-2 gap-3 mt-6">
+                  <button className="bg-emerald-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-100" onClick={applyFilters}>Apply</button>
+                  <button className="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 active:scale-95 transition-all" onClick={clearFilters}>Clear</button>
                 </div>
               </div>
             )}
           </div>
 
           <button
-            className="btn-primary"
+            className="flex-1 sm:flex-none px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-100"
             onClick={() => navigate('/inventory/add-batch')}
           >
             <Plus size={16} /> Add Medicine
@@ -249,58 +245,63 @@ export function InventoryDashboard() {
         </div>
       </div>
 
-      <div className="table-card">
-        <h3>Real-Time Stock Status</h3>
+      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <h3 className="text-lg font-bold text-gray-800 mb-6">Real-Time Stock Status</h3>
 
-        <table className="inventory-table">
-          <thead>
-            <tr>
-              <th>Medicine Name</th>
-              <th>Batch No</th>
-              <th>Mfg. Date</th>
-              <th>Expiry Date</th>
-              <th>Quantity</th>
-              <th>Supplier</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pagedData.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <div className="medicine-info">
-                    <div className="medicine-name">{item.name}</div>
-                    {item.category && (
-                      <div className="medicine-category">{item.category}</div>
-                    )}
-                  </div>
-                </td>
-                <td>{item.batchNo}</td>
-                <td>{item.manufactureDate}</td>
-                <td>{item.expiry}</td>
-                <td>{item.quantity}</td>
-                <td>{item.supplier}</td>
-                <td>
-                  {item.status && (
-                    <span className={`status-badge ${item.status.toLowerCase().replace(' ', '-')}`}>
-                      {item.status}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(item.id)}
-                    title="Delete"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
+        <div className="overflow-x-auto -mx-6 px-6">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="bg-gray-50/50">
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Medicine Name</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Batch No</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Mfg. Date</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Expiry Date</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Quantity</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Supplier</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Status</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {pagedData.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50/30 transition-colors">
+                  <td className="py-4 px-3">
+                    <div className="flex flex-col">
+                      <div className="font-bold text-gray-900">{item.name}</div>
+                      {item.category && (
+                        <div className="text-[0.7rem] text-gray-400 mt-0.5">{item.category}</div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-4 px-3 text-gray-600 font-medium">{item.batchNo}</td>
+                  <td className="py-4 px-3 text-gray-500">{item.manufactureDate}</td>
+                  <td className="py-4 px-3 text-gray-500 font-medium whitespace-nowrap">{item.expiry}</td>
+                  <td className="py-4 px-3 text-gray-900 font-bold tabular-nums">{item.quantity}</td>
+                  <td className="py-4 px-3 text-gray-600 font-medium">{item.supplier}</td>
+                  <td className="py-4 px-3">
+                    {item.status && (
+                      <span className={`px-2.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider whitespace-nowrap ${item.status === 'Low Stock' ? 'bg-red-50 text-red-600 ring-1 ring-inset ring-red-100' :
+                        item.status === 'Near Expiry' ? 'bg-amber-50 text-amber-600 ring-1 ring-inset ring-amber-100' :
+                          'bg-gray-50 text-gray-500'
+                        }`}>
+                        {item.status}
+                      </span>
+                    )}
+                  </td>
+                  <td className="py-4 px-3">
+                    <button
+                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                      onClick={() => handleDelete(item.id)}
+                      title="Delete"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <Pagination
           currentPage={currentPage}
@@ -315,16 +316,25 @@ export function InventoryDashboard() {
       </div>
 
       {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal delete-modal">
-            <h3>Confirm Delete</h3>
-            <p>Are you sure you want to delete this medicine batch?</p>
-            <p className="warning-text">This action cannot be undone.</p>
-            <div className="modal-actions">
-              <button className="btn-danger" onClick={confirmDelete}>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[9999] backdrop-blur-sm p-4">
+          <div className="bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <AlertTriangle size={32} />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 text-center mb-2">Confirm Delete</h3>
+            <p className="text-gray-500 text-center mb-1">Are you sure you want to delete this medicine batch?</p>
+            <p className="text-red-500 text-sm font-semibold text-center mb-8">This action cannot be undone.</p>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                className="bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 active:scale-95 transition-all shadow-lg shadow-red-100"
+                onClick={confirmDelete}
+              >
                 Delete
               </button>
-              <button className="btn-secondary" onClick={() => setShowDeleteModal(false)}>
+              <button
+                className="bg-gray-100 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-200 active:scale-95 transition-all"
+                onClick={() => setShowDeleteModal(false)}
+              >
                 Cancel
               </button>
             </div>

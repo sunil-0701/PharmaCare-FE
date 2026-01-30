@@ -12,19 +12,13 @@ import {
 import { Pagination } from "./Pagination.jsx";
 import { useSales } from "../contexts/SalesContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
-import "./POSInterface.css";
-
-const medicines = [
-  { id: "1", name: "Paracetamol 500mg", price: 5.5, stock: 250, expiry: "2025-12-31", batchNo: "BT001" },
-  { id: "2", name: "Amoxicillin 250mg", price: 12, stock: 180, expiry: "2025-10-15", batchNo: "BT002" },
-  { id: "3", name: "Ibuprofen 400mg", price: 8.25, stock: 320, expiry: "2026-03-20", batchNo: "BT003" },
-  { id: "4", name: "Cetirizine 10mg", price: 6, stock: 150, expiry: "2025-08-10", batchNo: "BT004" },
-  { id: "5", name: "Omeprazole 20mg", price: 15.5, stock: 90, expiry: "2025-11-25", batchNo: "BT005" },
-];
+import { useInventory } from "../contexts/InventoryContext.jsx";
+import { toast } from "sonner";
 
 export function POSInterface() {
   const { user } = useAuth();
   const { addSale } = useSales();
+  const { inventoryData, deductStock } = useInventory();
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [customerName, setCustomerName] = useState("");
@@ -33,7 +27,7 @@ export function POSInterface() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const filteredMedicines = medicines.filter(
+  const filteredMedicines = inventoryData.filter(
     (m) =>
       m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.batchNo.toLowerCase().includes(searchTerm.toLowerCase())
@@ -42,14 +36,14 @@ export function POSInterface() {
   const addToCart = (medicine) => {
     const existing = cart.find((i) => i.id === medicine.id);
     if (existing) {
-      if (existing.quantity < medicine.stock) {
+      if (existing.quantity < medicine.quantity) {
         setCart(
           cart.map((i) =>
             i.id === medicine.id ? { ...i, quantity: i.quantity + 1 } : i
           )
         );
       } else {
-        console.error("Not enough stock");
+        toast.error("Stock limit reached for this item");
       }
     } else {
       setCart([...cart, { ...medicine, quantity: 1 }]);
@@ -57,6 +51,14 @@ export function POSInterface() {
   };
 
   const updateQuantity = (id, delta) => {
+    const item = cart.find(i => i.id === id);
+    const medicine = inventoryData.find(m => m.id === id);
+
+    if (delta > 0 && item.quantity >= medicine.quantity) {
+      toast.error("Stock limit reached");
+      return;
+    }
+
     setCart((prev) =>
       prev
         .map((i) =>
@@ -76,15 +78,11 @@ export function POSInterface() {
 
   const generateBill = () => {
     if (!cart.length) {
-      alert("Cart is empty");
+      toast.error("Query inhibited: Empty transaction payload");
       return;
     }
-    if (!customerName.trim()) {
-      alert("Customer Name is required");
-      return;
-    }
-    if (!customerPhone.trim()) {
-      alert("Customer Phone is required");
+    if (!customerName.trim() || !customerPhone.trim()) {
+      toast.error("Incomplete entity metadata: Customer info required");
       return;
     }
     setShowReceipt(true);
@@ -92,7 +90,8 @@ export function POSInterface() {
 
   const printReceipt = () => {
     addSale(total, user?.id);
-    alert("Receipt printed successfully!");
+    deductStock(cart);
+    toast.success("Transaction Ledger Synchronized & Printed");
     setCart([]);
     setCustomerName("");
     setCustomerPhone("");
@@ -105,205 +104,189 @@ export function POSInterface() {
   );
 
   return (
-    <div className="pos">
-      <header className="pos-header">
-        <div className="pos-header-content">
-          <div className="pos-brand">
-            <h1>PharmaCare</h1>
-            <p>Healthcare System</p>
-          </div>
-          <div className="pos-user-badge">
-            <div className="user-role">Role: {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Staff'}</div>
-            <div className="user-details">
-              <div>{user?.name || 'Authorized Staff'}</div>
-              <div>{user?.email || 'Logged in'}</div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-6 md:gap-10">
+     
 
-      <div className="pos-layout">
-        <div className="left-panel">
-          <div className="pos-card">
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>Medicine Search</h3>
-
-            <div className="pos-search-bar">
-              <div className="pos-input-icon">
-                <Search size={18} />
-                <input
-                  type="text"
-                  placeholder="Search by name or batch number..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10 items-start">
+        <div className="lg:col-span-2 flex flex-col gap-6 md:gap-10">
+          <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/40">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+              <h3 className="text-xl font-bold text-slate-900 tracking-tight">Medicine Search</h3>
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <Search size={18} className="absolute top-1/2 left-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search by Name or batch number..."
+                    className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <button className="h-14 px-6 bg-slate-900 text-white rounded-2xl flex items-center gap-3 font-bold text-[0.65rem] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
+                  <Barcode size={20} />
+                  Scanner
+                </button>
               </div>
-              <button className="btn scan">
-                <Barcode size={18} />
-                Scan
-              </button>
             </div>
 
-            <div className="pos-info">
-              All prices are inclusive of applicable taxes.
-            </div>
-
-            <table className="pos-table">
-              <thead>
-                <tr>
-                  <th>Medicine</th>
-                  <th>Price (Incl. Tax)</th>
-                  <th>Stock</th>
-                  <th>Expiry</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pagedMedicines.map((m) => (
-                  <tr key={m.id}>
-                    <td>
-                      <div className="medicine-name">{m.name}</div>
-                      <div style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.125rem' }}>
-                        Batch: {m.batchNo}
-                      </div>
-                    </td>
-                    <td style={{ fontWeight: '600' }}>₹{m.price.toFixed(2)}</td>
-                    <td>
-                      <span className="stock-pill">{m.stock}</span>
-                    </td>
-                    <td>{m.expiry}</td>
-                    <td>
-                      <button
-                        className="btn add small"
-                        onClick={() => addToCart(m)}
-                        style={{ padding: '0.25rem 0.75rem' }}
-                      >
-                        <Plus size={14} /> Add
-                      </button>
-                    </td>
+            <div className="overflow-x-auto rounded-[2rem] border border-slate-50">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/50">
+                    <th className="px-8 py-6 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Medicine Name</th>
+                    <th className="px-8 py-6 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest text-center whitespace-nowrap">Price</th>
+                    <th className="px-8 py-6 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest text-center whitespace-nowrap">Stock</th>
+                    <th className="px-8 py-6 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest text-center whitespace-nowrap">Expiry</th>
+                    <th className="px-8 py-6 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest text-right whitespace-nowrap">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {pagedMedicines.map((m) => (
+                    <tr key={m.id} className="group hover:bg-slate-50/50 transition-colors">
+                      <td className="px-8 py-6">
+                        <div className="font-bold text-slate-900">{m.name}</div>
+                        <div className="text-[0.6rem] font-bold text-blue-500 uppercase tracking-widest mt-1">Batch: {m.batchNo}</div>
+                      </td>
+                      <td className="px-8 py-6 text-center text-sm font-bold text-slate-900 uppercase">₹{m.price.toFixed(2)}</td>
+                      <td className="px-8 py-6 text-center">
+                        <span className={`px-3 py-1 rounded-xl text-[0.65rem] font-bold uppercase tracking-widest border whitespace-nowrap ${m.quantity < 50 ? "bg-rose-50 text-rose-500 border-rose-100" : "bg-blue-50 text-blue-500 border-blue-100"
+                          }`}>
+                          {m.quantity} Unit
+                        </span>
+                      </td>
+                      <td className="px-8 py-6 text-center text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">{m.expiry}</td>
+                      <td className="px-8 py-6 text-right">
+                        <button
+                          className="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all active:scale-90 shadow-sm shadow-emerald-50 ml-auto"
+                          onClick={() => addToCart(m)}
+                        >
+                          <Plus size={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-            <Pagination
-              currentPage={currentPage}
-              totalItems={filteredMedicines.length}
-              rowsPerPage={rowsPerPage}
-              onPageChange={setCurrentPage}
-              onRowsPerPageChange={(rows) => {
-                setRowsPerPage(rows);
-                setCurrentPage(1);
-              }}
-            />
+            <div className="mt-8 border-t border-slate-50 pt-8">
+              <Pagination
+                currentPage={currentPage}
+                totalItems={filteredMedicines.length}
+                rowsPerPage={rowsPerPage}
+                onPageChange={setCurrentPage}
+                onRowsPerPageChange={(rows) => {
+                  setRowsPerPage(rows);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="right-panel">
-          <div className="pos-card" style={{ marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>Customer Details</h3>
-
-            <div className="customer-input">
-              <div className="customer-input-group">
-                <label>
-                  Customer Name <span style={{ color: '#dc2626' }}>*</span>
-                </label>
+        <div className="flex flex-col gap-6 md:gap-10">
+          <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40">
+            <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-8">Customer Details</h3>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Customer Name</label>
                 <input
-                  type="text"
-                  placeholder="Enter customer name"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  required
+                  placeholder="Enter Customer Name..."
                 />
               </div>
-              <div className="customer-input-group">
-                <label>
-                  Customer Phone <span style={{ color: '#dc2626' }}>*</span>
-                </label>
+              <div className="space-y-2">
+                <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Customer Phone</label>
                 <input
                   type="tel"
-                  placeholder="Enter phone number"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
-                  required
+                  placeholder="+91-00000-00000"
                 />
               </div>
-            </div>
-
-            <div className="pos-info" style={{ marginTop: '1rem', background: '#fef3c7', borderColor: '#fde68a', color: '#92400e' }}>
-              <Info size={16} />
-              Customer details are required for bill generation and record keeping.
             </div>
           </div>
 
-          <div className="pos-card">
-            <div className="cart-header">
-              <h3 style={{ fontSize: '1.125rem', fontWeight: '600' }}>Cart ({cart.length})</h3>
-              {cart.length > 0 && (
-                <span className="cart-count">{cart.length} items</span>
-              )}
+          <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40 flex flex-col min-h-[400px] md:min-h-[500px]">
+            <div className="flex justify-between items-center mb-10">
+            
+              <span className="px-4 py-1.5 text-black  text-[1.2rem] font-bold uppercase tracking-widest whitespace-nowrap">  Cart Items({cart.length}) </span>
             </div>
 
-            <div className="cart">
+            <div className="flex-1 space-y-4 overflow-y-auto pr-2 max-h-[400px] scrollbar-hide">
               {cart.length === 0 ? (
-                <div className="cart-empty">
-                  <ShoppingCart size={48} style={{ color: '#d1d5db', marginBottom: '0.75rem' }} />
-                  <div>Cart is empty</div>
+                <div className="flex flex-col items-center justify-center py-20 text-slate-300 border-2 border-dashed border-slate-100 rounded-[2rem]">
+                  <ShoppingCart size={60} className="mb-4 opacity-10" />
+                  <div className="text-[0.65rem] font-bold uppercase tracking-[0.2em]">Empty Cart</div>
                 </div>
               ) : (
                 cart.map((item) => (
-                  <div key={item.id} className="cart-item">
-                    <div className="cart-item-info">
-                      <div className="cart-item-name">{item.name}</div>
-                      <div className="cart-item-price">
-                        ₹{item.price.toFixed(2)} × {item.quantity} = ₹{(item.price * item.quantity).toFixed(2)}
+                  <div key={item.id} className="p-5 bg-slate-50 border border-slate-100 rounded-[2rem] group hover:border-emerald-200 transition-all flex flex-col gap-4">
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-slate-900 truncate uppercase tracking-tight">{item.name}</div>
+                        <div className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest mt-1">₹{item.price.toFixed(2)} / Unit</div>
+                      </div>
+                      <button
+                        className="text-slate-300 hover:text-rose-500 transition-colors p-1"
+                        onClick={() => removeFromCart(item.id)}
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 bg-white p-1.5 rounded-xl border border-slate-100">
+                        <button
+                          className="w-10 h-10 rounded-lg hover:bg-slate-50 flex items-center justify-center text-slate-600 transition-all"
+                          onClick={() => updateQuantity(item.id, -1)}
+                        >
+                          <Minus size={18} />
+                        </button>
+                        <span className="w-10 text-center text-sm font-bold text-slate-900 tabular-nums">{item.quantity}</span>
+                        <button
+                          className="w-10 h-10 rounded-lg hover:bg-slate-50 flex items-center justify-center text-slate-600 transition-all"
+                          onClick={() => updateQuantity(item.id, 1)}
+                        >
+                          <Plus size={18} />
+                        </button>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</div>
                       </div>
                     </div>
-                    <div className="cart-qty">
-                      <button onClick={() => updateQuantity(item.id, -1)}>
-                        <Minus size={14} />
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)}>
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                    <button
-                      className="cart-item-remove"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
                   </div>
                 ))
               )}
             </div>
 
             {cart.length > 0 && (
-              <div className="cart-summary">
-                <div className="receipt-row">
+              <div className="mt-10 space-y-4 pt-10 border-t-4 border-double border-slate-50">
+                <div className="flex justify-between text-[0.65rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
                   <span>Subtotal</span>
                   <span>₹{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="receipt-row">
-                  <span>Tax (5%)</span>
+                <div className="flex justify-between text-[0.65rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
+                  <span> Tax (5%)</span>
                   <span>₹{tax.toFixed(2)}</span>
                 </div>
-                <div className="receipt-row total">
-                  <span>Total Amount</span>
-                  <span>₹{total.toFixed(2)}</span>
+                <div className="flex justify-between items-center bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100 mt-6 shadow-sm shadow-emerald-50">
+                  <span className="text-[0.7rem] font-bold text-emerald-600 uppercase tracking-[0.3em]">Total Amount</span>
+                  <span className="text-2xl font-bold text-emerald-700 tracking-tighter">₹{total.toFixed(2)}</span>
                 </div>
               </div>
             )}
 
             <button
-              className="btn generate"
+              className={`mt-10 w-full h-16 flex items-center justify-center rounded-2xl font-bold text-[0.7rem] uppercase tracking-[0.3em] transition-all active:scale-[0.98] ${!cart.length || !customerName || !customerPhone
+                ? 'bg-slate-100 text-slate-300 cursor-not-allowed'
+                : 'bg-slate-900 text-white hover:bg-slate-800 shadow-2xl shadow-slate-200'
+                }`}
               onClick={generateBill}
               disabled={!cart.length || !customerName || !customerPhone}
-              style={{
-                background: !cart.length || !customerName || !customerPhone ? '#e5e7eb' : '#059669',
-                color: !cart.length || !customerName || !customerPhone ? '#9ca3af' : '#ffffff',
-                cursor: !cart.length || !customerName || !customerPhone ? 'not-allowed' : 'pointer'
-              }}
             >
               Generate Bill
             </button>
@@ -312,59 +295,61 @@ export function POSInterface() {
       </div>
 
       {showReceipt && (
-        <div className="modal">
-          <div className="modal-box">
-            <h3 style={{ marginBottom: '1rem', color: '#111827', fontSize: '1.25rem' }}>Receipt - PharmaCare</h3>
-
-            <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#6b7280' }}>
-              <div><strong>Customer:</strong> {customerName}</div>
-              <div><strong>Phone:</strong> {customerPhone}</div>
-              <div><strong>Date:</strong> {new Date().toLocaleDateString()}</div>
+        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-6 backdrop-blur-xl">
+          <div className="bg-white p-10 rounded-[3rem] w-full max-w-md shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in duration-300 border border-white">
+            <div className="flex flex-col items-center mb-10">
+              <div className="w-20 h-20 bg-emerald-50 rounded-[2rem] flex items-center justify-center mb-6 shadow-inner shadow-emerald-100">
+                <Printer className="text-emerald-600" size={36} />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">PharmaCare Record</h3>
+              <p className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.3em] mt-3">Auth Sequence Validated</p>
             </div>
 
-            <div style={{ marginBottom: '1rem', maxHeight: '200px', overflowY: 'auto' }}>
+            <div className="space-y-4 mb-10 bg-slate-50 p-8 rounded-[2rem] border border-slate-100 text-xs font-bold ring-1 ring-slate-100">
+              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Consignee</span> <span className="text-slate-900">{customerName}</span></div>
+              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Contact</span> <span className="text-slate-900">{customerPhone}</span></div>
+              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Log Date</span> <span className="text-slate-900">{new Date().toLocaleDateString()}</span></div>
+            </div>
+
+            <div className="mb-10 max-h-[250px] overflow-y-auto space-y-6 px-2 scrollbar-hide">
               {cart.map((item) => (
-                <div key={item.id} className="receipt-row" style={{ padding: '0.5rem 0', borderBottom: '1px solid #f3f4f6' }}>
+                <div key={item.id} className="flex justify-between items-start">
                   <div>
-                    <div style={{ fontWeight: '500' }}>{item.name}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>
-                      ₹{item.price.toFixed(2)} × {item.quantity}
-                    </div>
+                    <div className="text-[0.7rem] font-bold text-slate-900 uppercase tracking-tight">{item.name}</div>
+                    <div className="text-[0.6rem] text-slate-400 font-bold uppercase tracking-widest mt-1">₹{item.price.toFixed(2)} × {item.quantity}</div>
                   </div>
-                  <span style={{ fontWeight: '600' }}>₹{(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-[0.7rem] font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ borderTop: '2px solid #e5e7eb', paddingTop: '1rem' }}>
-              <div className="receipt-row">
-                <span>Subtotal</span>
+            <div className="border-t-4 border-double border-slate-100 pt-8 space-y-4 mb-10">
+              <div className="flex justify-between text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
+                <span>Base Load</span>
                 <span>₹{subtotal.toFixed(2)}</span>
               </div>
-              <div className="receipt-row">
-                <span>Tax (5%)</span>
+              <div className="flex justify-between text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
+                <span>System Surcharge</span>
                 <span>₹{tax.toFixed(2)}</span>
               </div>
-              <div className="receipt-row total">
-                <span>Total</span>
-                <span>₹{total.toFixed(2)}</span>
+              <div className="flex justify-between font-bold text-slate-900 text-xl pt-4 border-t border-slate-50">
+                <span className="tracking-tighter uppercase text-[0.6rem] text-slate-400 bg-slate-50 px-3 py-1 rounded-lg">Validated Total</span>
+                <span className="text-emerald-600 tracking-tighter">₹{total.toFixed(2)}</span>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem' }}>
+            <div className="flex flex-col gap-4">
               <button
-                className="btn primary"
+                className="w-full h-16 bg-emerald-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.3em] rounded-2xl flex items-center justify-center gap-4 hover:bg-emerald-700 transition-all active:scale-[0.98] shadow-2xl shadow-emerald-200"
                 onClick={printReceipt}
-                style={{ flex: 1 }}
               >
-                <Printer size={16} /> Print Receipt
+                <Printer size={20} /> Execute Print
               </button>
               <button
-                className="btn"
+                className="w-full h-14 bg-slate-50 text-slate-400 font-bold text-[0.6rem] uppercase tracking-[0.3em] rounded-2xl hover:bg-slate-100 transition-all active:scale-[0.98]"
                 onClick={() => setShowReceipt(false)}
-                style={{ background: '#f3f4f6', border: '1px solid #d1d5db' }}
               >
-                Close
+                Abort Log
               </button>
             </div>
           </div>

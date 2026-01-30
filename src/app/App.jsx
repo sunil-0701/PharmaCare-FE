@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, Pill } from 'lucide-react';
+import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import { PrescriptionProvider } from './contexts/PrescriptionContext.jsx';
 import { InventoryProvider } from './contexts/InventoryContext.jsx';
@@ -17,12 +19,19 @@ import { AddBatch } from './components/AddBatch.jsx';
 import { ReportsAnalytics } from './components/ReportsAnalytics.jsx';
 import { SettingsPage } from './components/SettingsPage.jsx';
 import { StaffManagement } from './components/StaffManagement.jsx';
-import './App.css';
-
 function Layout() {
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const isLandingPage = location.pathname === '/';
+  const isLoginPage = location.pathname === '/login';
+
+  // If on landing or login page, just render the outlet without the sidebar/layout structure
+  if (isLandingPage || isLoginPage) {
+    return <Outlet />;
+  }
 
   const getCurrentView = () => {
     const path = location.pathname.substring(1);
@@ -39,13 +48,37 @@ function Layout() {
   };
 
   return (
-    <div className="app-layout">
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden font-sans relative">
       <Sidebar
         currentView={getCurrentView()}
-        onViewChange={handleViewChange}
+        onViewChange={(viewId) => {
+          handleViewChange(viewId);
+          setIsMobileSidebarOpen(false);
+        }}
+        isOpen={isMobileSidebarOpen}
+        onClose={() => setIsMobileSidebarOpen(false)}
       />
-      <main className="app-main">
-        <Outlet />
+
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Mobile Header */}
+        <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-emerald-200">
+              <Pill size={20} />
+            </div>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">PharmaCare</h1>
+          </div>
+          <button
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="p-2 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
+          >
+            <Menu size={24} />
+          </button>
+        </header>
+
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
@@ -124,6 +157,7 @@ export default function App() {
       <PrescriptionProvider>
         <InventoryProvider>
           <SalesProvider>
+            <Toaster position="top-right" richColors />
             <MainApp />
           </SalesProvider>
         </InventoryProvider>

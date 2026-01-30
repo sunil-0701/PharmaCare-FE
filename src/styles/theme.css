@@ -1,259 +1,162 @@
-:root {
-  /* Typography */
-  --font-size: 16px;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --letter-spacing-tight: -0.025em;
-  --letter-spacing-normal: 0;
-  --letter-spacing-wide: 0.025em;
-  
+@theme {
   /* Healthcare Color System - Emerald & Soft Teal */
-  --primary: #059669; /* Emerald 600 */
-  --primary-hover: #047857; /* Emerald 700 */
-  --primary-light: #D1FAE5; /* Emerald 100 */
-  --primary-foreground: #ffffff;
-  
-  --secondary: #14B8A6; /* Teal 500 */
-  --secondary-hover: #0D9488; /* Teal 600 */
-  --secondary-light: #CCFBF1; /* Teal 100 */
-  --secondary-foreground: #ffffff;
-  
+  --color-primary: #059669;
+  --color-primary-hover: #047857;
+  --color-primary-light: #D1FAE5;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #14B8A6;
+  --color-secondary-hover: #0D9488;
+  --color-secondary-light: #CCFBF1;
+  --color-secondary-foreground: #ffffff;
+
   /* Background & Surfaces */
-  --background: #F9FAFB; /* Gray 50 - Off-white */
-  --background-secondary: #F3F4F6; /* Gray 100 */
-  --foreground: #111827; /* Gray 900 */
-  
-  /* Glassmorphism Card Surfaces */
-  --card: rgba(255, 255, 255, 0.85);
-  --card-solid: #ffffff;
-  --card-foreground: #111827;
-  --card-border: rgba(229, 231, 235, 0.6); /* Gray 200 with opacity */
-  
-  /* Popover & Dialog */
-  --popover: rgba(255, 255, 255, 0.95);
-  --popover-foreground: #111827;
-  
-  /* Status Colors - Soft & Muted */
-  --success: #10B981; /* Soft Green - Emerald 500 */
-  --success-light: #D1FAE5; /* Emerald 100 */
-  --success-foreground: #ffffff;
-  
-  --warning: #F59E0B; /* Muted Amber 500 */
-  --warning-light: #FEF3C7; /* Amber 100 */
-  --warning-foreground: #ffffff;
-  
-  --error: #EF4444; /* Soft Red 500 */
-  --error-light: #FEE2E2; /* Red 100 */
-  --error-foreground: #ffffff;
-  
-  --destructive: #EF4444;
-  --destructive-foreground: #ffffff;
-  
+  --color-background: #F9FAFB;
+  --color-background-secondary: #F3F4F6;
+  --color-foreground: #111827;
+
+  /* Glassmorphism & Cards */
+  --color-card: rgba(255, 255, 255, 0.85);
+  --color-card-solid: #ffffff;
+  --color-card-foreground: #111827;
+  --color-card-border: rgba(229, 231, 235, 0.6);
+
+  --color-popover: rgba(255, 255, 255, 0.95);
+  --color-popover-foreground: #111827;
+
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-success-light: #D1FAE5;
+  --color-success-foreground: #ffffff;
+
+  --color-warning: #F59E0B;
+  --color-warning-light: #FEF3C7;
+  --color-warning-foreground: #ffffff;
+
+  --color-error: #EF4444;
+  --color-error-light: #FEE2E2;
+  --color-error-foreground: #ffffff;
+
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #ffffff;
+
   /* Neutral Colors */
-  --muted: #F3F4F6; /* Gray 100 */
-  --muted-foreground: #6B7280; /* Gray 500 */
-  
-  --accent: #ECFDF5; /* Emerald 50 */
-  --accent-foreground: #065F46; /* Emerald 800 */
-  
+  --color-muted: #F3F4F6;
+  --color-muted-foreground: #6B7280;
+
+  --color-accent: #ECFDF5;
+  --color-accent-foreground: #065F46;
+
   /* Borders & Inputs */
-  --border: #E5E7EB; /* Gray 200 */
-  --border-light: #F3F4F6; /* Gray 100 */
-  --input: transparent;
-  --input-background: #ffffff;
-  --input-border: #E5E7EB;
-  --input-border-focus: #059669; /* Emerald 600 */
-  --switch-background: #D1D5DB; /* Gray 300 */
-  
-  --ring: #059669; /* Emerald 600 */
-  
-  /* Chart Colors - Healthcare themed */
-  --chart-1: #059669; /* Emerald */
-  --chart-2: #14B8A6; /* Teal */
-  --chart-3: #8B5CF6; /* Purple */
-  --chart-4: #F59E0B; /* Amber */
-  --chart-5: #3B82F6; /* Blue */
-  
-  /* Border Radius - Rounded & Soft */
-  --radius: 0.75rem; /* 12px - Increased for softer look */
-  --radius-sm: 0.5rem; /* 8px */
-  --radius-md: 0.625rem; /* 10px */
-  --radius-lg: 1rem; /* 16px */
-  --radius-xl: 1.25rem; /* 20px */
-  --radius-2xl: 1.5rem; /* 24px */
-  --radius-full: 9999px; /* Pill shape */
-  
-  /* Shadows - Soft elevation */
+  --color-border: #E5E7EB;
+  --color-border-light: #F3F4F6;
+  --color-input: transparent;
+  --color-input-background: #ffffff;
+  --color-input-border: #E5E7EB;
+  --color-input-border-focus: #059669;
+  --color-switch-background: #D1D5DB;
+
+  --color-ring: #059669;
+
+  /* Chart Colors */
+  --color-chart-1: #059669;
+  --color-chart-2: #14B8A6;
+  --color-chart-3: #8B5CF6;
+  --color-chart-4: #F59E0B;
+  --color-chart-5: #3B82F6;
+
+  /* Radius Aliases (Remapped for v4 naming) */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
-  /* Sidebar - Glassmorphism */
-  --sidebar: rgba(255, 255, 255, 0.9);
-  --sidebar-foreground: #374151; /* Gray 700 */
-  --sidebar-primary: #059669; /* Emerald 600 */
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F0FDF4; /* Green 50 */
-  --sidebar-accent-foreground: #059669; /* Emerald 600 */
-  --sidebar-border: rgba(229, 231, 235, 0.6);
-  --sidebar-ring: #059669;
-  
-  /* Spacing multipliers for generous whitespace */
-  --spacing-section: 2rem; /* 32px */
-  --spacing-card: 1.5rem; /* 24px */
-  --spacing-element: 1rem; /* 16px */
+
+  /* Sidebar Specifics */
+  --color-sidebar: rgba(255, 255, 255, 0.9);
+  --color-sidebar-foreground: #374151;
+  --color-sidebar-primary: #059669;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #F0FDF4;
+  --color-sidebar-accent-foreground: #059669;
+  --color-sidebar-border: rgba(229, 231, 235, 0.6);
+  --color-sidebar-ring: #059669;
 }
 
-.dark {
-  --background: #111827;
-  --foreground: #F9FAFB;
-  --card: rgba(31, 41, 55, 0.85);
-  --card-solid: #1F2937;
-  --card-foreground: #F9FAFB;
-  --popover: rgba(31, 41, 55, 0.95);
-  --popover-foreground: #F9FAFB;
-  --primary: #10B981;
-  --primary-hover: #059669;
-  --primary-foreground: #ffffff;
-  --secondary: #14B8A6;
-  --secondary-hover: #0D9488;
-  --secondary-foreground: #ffffff;
-  --muted: #374151;
-  --muted-foreground: #9CA3AF;
-  --accent: #1F2937;
-  --accent-foreground: #10B981;
-  --destructive: #EF4444;
-  --destructive-foreground: #ffffff;
-  --border: #374151;
-  --input: #1F2937;
-  --ring: #10B981;
-  --sidebar: rgba(31, 41, 55, 0.9);
-  --sidebar-foreground: #D1D5DB;
-  --sidebar-primary: #10B981;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1F2937;
-  --sidebar-accent-foreground: #10B981;
-  --sidebar-border: rgba(55, 65, 81, 0.6);
+:root {
+  /* Backwards compatibility for raw CSS var() usage */
+  --primary: var(--color-primary);
+  --primary-hover: var(--color-primary-hover);
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
+  --card: var(--color-card);
+  --card-border: var(--color-card-border);
+  --border: var(--color-border);
+  --radius: var(--radius-lg);
 }
 
-/* Base Styles */
-* {
-  border-color: var(--border);
-  outline-color: rgba(5, 150, 105, 0.5);
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+@layer base {
+  * {
+    border-color: var(--color-border);
+    outline-color: rgba(5, 150, 105, 0.5);
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.025em;
+    font-weight: 600;
+  }
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  letter-spacing: var(--letter-spacing-normal);
-}
-
-html {
-  font-size: var(--font-size);
-}
-
-/* Typography Hierarchy */
-h1 {
-  font-size: 2.25rem;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.2;
-  letter-spacing: var(--letter-spacing-tight);
-  color: var(--foreground);
-}
-
-h2 {
-  font-size: 1.875rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.3;
-  letter-spacing: var(--letter-spacing-tight);
-  color: var(--foreground);
-}
-
-h3 {
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  letter-spacing: var(--letter-spacing-tight);
-  color: var(--foreground);
-}
-
-h4 {
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.5;
-  color: var(--foreground);
-}
-
-p {
-  font-size: 1rem;
-  font-weight: var(--font-weight-normal);
-  line-height: 1.6;
-  color: var(--foreground);
-}
-
-label {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.5;
-  letter-spacing: var(--letter-spacing-wide);
-  color: var(--foreground);
-}
-
-button {
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.5;
-  letter-spacing: var(--letter-spacing-wide);
-}
-
-input,
-textarea,
-select {
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-normal);
-  line-height: 1.5;
-}
-
-/* Glassmorphism Effect */
-.glass {
-  background: var(--card);
+/* Custom Utilities */
+@utility glass {
+  background: var(--color-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--color-card-border);
 }
 
-/* Custom Utility Classes */
-.glass-card {
-  background: var(--card);
+@utility glass-card {
+  background: var(--color-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--color-card-border);
   box-shadow: var(--shadow-md);
 }
 
-.glass-sidebar {
-  background: var(--sidebar);
+@utility glass-sidebar {
+  background: var(--color-sidebar);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid var(--sidebar-border);
+  border-right: 1px solid var(--color-sidebar-border);
 }
 
-.stat-card {
-  background: var(--card-solid);
+@utility stat-card {
+  background: var(--color-card-solid);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   transition: all 200ms ease;
-}
 
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
 }

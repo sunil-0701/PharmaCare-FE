@@ -13,7 +13,8 @@ const initialInventoryData = [
         supplier: "MedSupply Co",
         category: "Pain Relief",
         reorderLevel: 100,
-        status: ""
+        status: "",
+        price: 15.50
     },
     {
         id: "2",
@@ -25,7 +26,8 @@ const initialInventoryData = [
         supplier: "PharmaDist",
         category: "Antibiotics",
         reorderLevel: 50,
-        status: "Low Stock"
+        status: "Low Stock",
+        price: 45.00
     },
     {
         id: "3",
@@ -37,7 +39,8 @@ const initialInventoryData = [
         supplier: "MedSupply Co",
         category: "Pain Relief",
         reorderLevel: 100,
-        status: "Near Expiry"
+        status: "Near Expiry",
+        price: 22.75
     },
     {
         id: "4",
@@ -49,7 +52,8 @@ const initialInventoryData = [
         supplier: "HealthCare Ltd",
         category: "Antihistamines",
         reorderLevel: 50,
-        status: ""
+        status: "",
+        price: 12.00
     },
     {
         id: "5",
@@ -61,7 +65,8 @@ const initialInventoryData = [
         supplier: "PharmaDist",
         category: "Gastrointestinal",
         reorderLevel: 50,
-        status: "Low Stock"
+        status: "Low Stock",
+        price: 35.50
     },
     {
         id: "6",
@@ -73,7 +78,8 @@ const initialInventoryData = [
         supplier: "MedSupply Co",
         category: "Cardiovascular",
         reorderLevel: 100,
-        status: ""
+        status: "",
+        price: 8.25
     }
 ];
 
@@ -106,6 +112,21 @@ export function InventoryProvider({ children }) {
         setInventoryData(prev => [...prev, batchWithStatus]);
     };
 
+    const deductStock = (items) => {
+        setInventoryData(prev => prev.map(item => {
+            const soldItem = items.find(i => i.id === item.id);
+            if (soldItem) {
+                const newQuantity = Math.max(0, item.quantity - soldItem.quantity);
+                let newStatus = item.status;
+                if (newQuantity <= item.reorderLevel) {
+                    newStatus = "Low Stock";
+                }
+                return { ...item, quantity: newQuantity, status: newStatus };
+            }
+            return item;
+        }));
+    };
+
     const deleteBatch = (id) => {
         setInventoryData(prev => prev.filter(item => item.id !== id));
     };
@@ -114,6 +135,7 @@ export function InventoryProvider({ children }) {
         <InventoryContext.Provider value={{
             inventoryData,
             addBatch,
+            deductStock,
             deleteBatch
         }}>
             {children}

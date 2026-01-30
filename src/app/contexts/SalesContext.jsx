@@ -53,7 +53,7 @@ export function SalesProvider({ children }) {
 
         setSalesData(newSalesData);
 
-        // Update staff sales
+        
         const newStaffSales = { ...staffSales };
         if (userId) {
             newStaffSales[userId] = (newStaffSales[userId] || 0) + amount;
@@ -61,7 +61,7 @@ export function SalesProvider({ children }) {
             localStorage.setItem('pharmacare_staff_sales', JSON.stringify(newStaffSales));
         }
 
-        // Persist to localStorage
+        
         localStorage.setItem('pharmacare_total_sales', String(newTotalSales));
         localStorage.setItem('pharmacare_total_transactions', String(newTotalTransactions));
         localStorage.setItem('pharmacare_sales_chart', JSON.stringify(newSalesData));
