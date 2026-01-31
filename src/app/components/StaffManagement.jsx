@@ -96,7 +96,7 @@ export function StaffManagement() {
 
       <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40 overflow-hidden">
         <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-slate-900 tracking-tight">Personnel Directory</h3>
+          <h3 className="text-lg font-bold text-slate-900 tracking-tight">Staff Directory</h3>
           <div className="p-2 bg-slate-50 rounded-xl cursor-not-allowed opacity-50">
             <MoreVertical size={18} className="text-slate-400" />
           </div>
@@ -106,11 +106,11 @@ export function StaffManagement() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr>
-                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Member Identitity</th>
-                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Contact Sync</th>
+                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Name</th>
+                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Email</th>
                 <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Department</th>
                 <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Status</th>
-                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">System Actions</th>
+                <th className="px-8 py-5 bg-slate-50/50 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -172,8 +172,8 @@ export function StaffManagement() {
           <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl shadow-slate-900/20 overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="px-8 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
               <div>
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Enroll Staff Member</h2>
-                <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest leading-none">Access Control Hub</p>
+                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Add New Staff Member</h2>
+
               </div>
               <button
                 className="w-12 h-12 bg-white text-slate-400 hover:text-slate-900 rounded-full flex items-center justify-center shadow-md transition-all active:scale-90"
@@ -186,7 +186,7 @@ export function StaffManagement() {
             <div className="p-10 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Legal Name</label>
+                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
                   <div className="relative group">
                     <Users size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
                     <input
@@ -200,7 +200,7 @@ export function StaffManagement() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Work Email</label>
+                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Email</label>
                   <div className="relative group">
                     <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
                     <input
@@ -214,7 +214,7 @@ export function StaffManagement() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Mobile Contact</label>
+                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Contact</label>
                   <div className="relative group">
                     <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
                     <input
@@ -236,15 +236,15 @@ export function StaffManagement() {
                       value={newStaff.role}
                       onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
                     >
-                      <option value="admin">System Admin</option>
+                      <option value="admin">Admin</option>
                       <option value="pharmacist">Pharmacist</option>
-                      <option value="inventory">Inventory Chief</option>
+                      <option value="inventory">Inventory Manager</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="col-span-full space-y-2">
-                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Secure Password</label>
+                  <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1"> Password</label>
                   <div className="relative group">
                     <Check size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
                     <input
@@ -264,13 +264,13 @@ export function StaffManagement() {
                 className="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors uppercase tracking-[0.2em]"
                 onClick={() => setShowAdd(false)}
               >
-                Discard
+                Cancel
               </button>
               <button
                 className="flex-1 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95"
                 onClick={handleAddStaff}
               >
-                Initialize Account
+                Add Staff
               </button>
             </div>
           </div>

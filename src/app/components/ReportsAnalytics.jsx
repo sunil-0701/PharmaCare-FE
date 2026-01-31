@@ -58,27 +58,27 @@ export function ReportsAnalytics() {
           onClick={exportPDF}
         >
           <Download size={18} className="group-hover:-translate-y-1 transition-transform" />
-          Generate PDF Ledger
+          Export Report
         </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
         <div className="space-y-2">
-          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Data Stream</label>
+          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Report Type</label>
           <select
             className="w-full h-14 px-5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all appearance-none cursor-pointer"
             value={reportType}
             onChange={(e) => setReportType(e.target.value)}
           >
-            <option value="sales">Sales & Revenue</option>
-            <option value="profit">Net Profitability</option>
-            <option value="expiry">Risk (Expiry)</option>
-            <option value="staff">Personnel Audit</option>
+            <option value="sales">Sales Report</option>
+            <option value="profit">Profit Report</option>
+            <option value="expiry">Expiry Report</option>
+            <option value="staff">Staff Report</option>
           </select>
         </div>
 
         <div className="space-y-2">
-          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date Init</label>
+          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date From</label>
           <div className="relative">
             <input
               type="date"
@@ -90,7 +90,7 @@ export function ReportsAnalytics() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date Final</label>
+          <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Date To</label>
           <div className="relative">
             <input
               type="date"
@@ -103,7 +103,7 @@ export function ReportsAnalytics() {
 
         <div className="flex items-end">
           <button className="w-full h-14 bg-slate-900 text-white rounded-2xl font-black text-[0.65rem] uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all">
-            Query Engine
+            Generate Report
           </button>
         </div>
       </div>
@@ -131,7 +131,7 @@ export function ReportsAnalytics() {
                 <DollarSign size={28} />
               </div>
               <div>
-                <div className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest leading-none">Gross Revenue</div>
+                <div className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest leading-none">Total Sales</div>
                 <div className="text-3xl font-black text-slate-900 tracking-tight mt-1">₹{totalSales.toLocaleString()}</div>
               </div>
             </div>
@@ -159,8 +159,8 @@ export function ReportsAnalytics() {
 
           <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/30">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight">Financial Velocity</h3>
-              <div className="text-[0.6rem] font-black text-slate-300 uppercase tracking-[0.2em]">12-Month Rolling Forecast</div>
+              <h3 className="text-xl font-black text-slate-900 tracking-tight">Sales Trend</h3>
+              <div className="text-[0.6rem] font-black text-slate-300 uppercase tracking-[0.2em]">12-Month Rolling Trend</div>
             </div>
             <ResponsiveContainer width="100%" height={350}>
               <LineChart data={salesData}>
@@ -203,8 +203,8 @@ export function ReportsAnalytics() {
       {tab === "profit" && (
         <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/30 animate-in fade-in duration-500">
           <div className="flex items-center justify-between mb-10">
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">Yield Comparison Matrix</h3>
-            <span className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-[0.6rem] font-black uppercase tracking-widest border border-blue-100">Revenue vs Net Profit</span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Profitability Analysis</h3>
+            <span className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-[0.6rem] font-black uppercase tracking-widest border border-blue-100">Profit vs Sales</span>
           </div>
           <ResponsiveContainer width="100%" height={450}>
             <LineChart data={salesData}>
@@ -223,18 +223,18 @@ export function ReportsAnalytics() {
       {tab === "expiry" && (
         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/30 overflow-hidden animate-in fade-in duration-500">
           <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">Obsolescence Risk Audit</h3>
-            <span className="px-4 py-1.5 bg-rose-50 text-rose-600 rounded-xl text-[0.6rem] font-black uppercase tracking-widest border border-rose-100">Critical Expiry Warning</span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Medicines Expiring Soon</h3>
+            <span className="px-4 py-1.5 bg-rose-50 text-rose-600 rounded-xl text-[0.6rem] font-black uppercase tracking-widest border border-rose-100">Expiry Alert</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
-                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest">Molecular Entity</th>
-                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Batch Sequence</th>
-                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Liquidation Date</th>
-                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Inventory Count</th>
-                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-right">Asset Exposure</th>
+                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest">Medicine Name</th>
+                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Batch Number</th>
+                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Expiry Date</th>
+                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-center">Quantity</th>
+                  <th className="px-10 py-5 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest text-right">Total Value</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -256,7 +256,7 @@ export function ReportsAnalytics() {
       {tab === "staff" && (
         <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/30 animate-in fade-in duration-500">
           <div className="flex items-center justify-between mb-10">
-            <h3 className="text-xl font-bold text-slate-900 tracking-tight">Personnel Efficiency Index</h3>
+            <h3 className="text-xl font-bold text-slate-900 tracking-tight">Pharmacist Performance</h3>
             <span className="px-4 py-1.5 bg-amber-50 text-amber-600 rounded-xl text-[0.6rem] font-black uppercase tracking-widest border border-amber-100">Performance Metrics</span>
           </div>
           <div className="space-y-10">

@@ -96,7 +96,7 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
         </div>
 
         {!isCollapsed && user?.role && (
-          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-medium ${roleStyles[user.role] || ""}`}>
+          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-semibold ${roleStyles[user.role] || ""}`}>
             <span className="opacity-70 text-xs block mb-0.5">ROLE</span>
             <strong className="capitalize">{user.role}</strong>
           </div>
@@ -110,13 +110,13 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
                 key={id}
                 className={`flex items-center gap-3 py-2.5 px-3 rounded-xl border-none cursor-pointer w-full transition-all duration-200 group ${active
                   ? "bg-emerald-50 text-emerald-600 font-semibold"
-                  : "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  : "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium"
                   }`}
                 onClick={() => onViewChange(id)}
                 title={isCollapsed ? label : undefined}
               >
                 <Icon size={20} className={active ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-600"} />
-                {!isCollapsed && <span className="text-sm">{label}</span>}
+                {!isCollapsed && <span className="text-sm font-medium">{label}</span>}
               </button>
             );
           })}
@@ -136,7 +136,7 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
             title={isCollapsed ? "Logout" : undefined}
           >
             <LogOut size={20} className="text-gray-400 group-hover:text-red-500" />
-            {!isCollapsed && <span className="text-sm font-medium">Logout</span>}
+            {!isCollapsed && <span className="text-sm font-semibold">Logout</span>}
           </button>
         </div>
       </aside>

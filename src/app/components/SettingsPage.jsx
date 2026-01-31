@@ -12,8 +12,8 @@ export function SettingsPage() {
   return (
     <div className="p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-10">
       <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none">System Architecture</h1>
-        <p className="text-slate-500 font-medium mt-3 uppercase tracking-widest text-[0.65rem] leading-none">Cloud Configuration & Global Prefereces</p>
+        <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none">System Settings</h1>
+        <p className="text-slate-500 font-medium mt-3 uppercase tracking-widest text-[0.65rem] leading-none">Global Preferences & Settings</p>
       </div>
 
       <div className="flex items-center gap-2 p-1.5 bg-slate-200/50 rounded-2xl w-fit">
@@ -24,7 +24,7 @@ export function SettingsPage() {
             }`}
           onClick={() => setTab("general")}
         >
-          General Core
+          General
         </button>
         <button
           className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all ${tab === "notifications"
@@ -33,7 +33,7 @@ export function SettingsPage() {
             }`}
           onClick={() => setTab("notifications")}
         >
-          Signal Alerts
+          Notifications
         </button>
       </div>
 
@@ -44,22 +44,22 @@ export function SettingsPage() {
               <Settings size={28} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">System Identity</h2>
-              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Base Operating Parameters</p>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">General Settings</h2>
+              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Configure System Preferences</p>
             </div>
           </div>
 
           <div className="space-y-10">
             <div className="space-y-3">
-              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Entity Nomenclature</label>
+              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Pharmacy Name</label>
               <input
                 className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                defaultValue="PharmaCare Pro"
+                defaultValue="PharmaCare"
               />
             </div>
 
             <div className="space-y-3">
-              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Geospatial Address</label>
+              <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Pharmacy Address</label>
               <input
                 className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
                 defaultValue="123 Medical Street, Health City, Sector 7"
@@ -68,18 +68,18 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Communication Line</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Contact Number</label>
                 <input
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                  defaultValue="+91 234-567-8900"
+                  defaultValue="+91 9876543210"
                 />
               </div>
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Secure Email Gateway</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                 <input
                   type="email"
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                  defaultValue="ops@pharmacare.io"
+                  defaultValue="Pharmacare@gmail.com"
                 />
               </div>
             </div>
@@ -88,7 +88,7 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Monetary Token</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Currency</label>
                 <select
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all appearance-none cursor-pointer"
                   defaultValue="inr"
@@ -101,7 +101,7 @@ export function SettingsPage() {
               </div>
 
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Temporal Zone</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Time Zone</label>
                 <select
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all appearance-none cursor-pointer"
                   defaultValue="ist"
@@ -119,7 +119,7 @@ export function SettingsPage() {
               className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
               onClick={handleSave}
             >
-              Commit Changes
+              Save Changes
             </button>
           </div>
         </div>
@@ -132,18 +132,18 @@ export function SettingsPage() {
               <Bell size={28} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Signal Matrix</h2>
-              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Autonomous Alert Protocols</p>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Notification Settings</h2>
+              <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Alert Settings</p>
             </div>
           </div>
 
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { label: "Critical Stock Depletion", desc: "Alert when inventory falls below threshold" },
-                { label: "Molecular Expiry Matrix", desc: "Proactive notice for aging medicine batches" },
-                { label: "System Order Sync", desc: "Notifications for successful procurement logs" },
-                { label: "Daily Intelligence Brief", desc: "Automated end-of-day financial summaries" },
+                { label: "Low Stock Alerts", desc: "Get notified when inventory stock is low" },
+                { label: "Expiry Alerts", desc: "Get notified when medicine is about to expire" },
+                { label: "Order Alerts", desc: "Get notified when an order is placed" },
+                { label: "Daily Alerts", desc: "Get notified for daily updates" },
               ].map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl group hover:border-emerald-200 hover:bg-emerald-50/30 transition-all">
                   <div>
@@ -162,7 +162,7 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Low Stock Trigger Limit</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Low Stock Limit</label>
                 <input
                   type="number"
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
@@ -171,7 +171,7 @@ export function SettingsPage() {
               </div>
 
               <div className="space-y-3">
-                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Warning Horizon (Days)</label>
+                <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Warning period (Days)</label>
                 <input
                   type="number"
                   className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
@@ -184,7 +184,7 @@ export function SettingsPage() {
               className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
               onClick={handleSave}
             >
-              Update Protocols
+              Save Settings
             </button>
           </div>
         </div>

@@ -145,11 +145,11 @@ export function SupplierManagement() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Merchant Entity</th>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Contact Line</th>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Digital Mail</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Supplier Name</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Contact Address</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Email</th>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Margin</th>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Operational Status</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Status</th>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -222,7 +222,7 @@ export function SupplierManagement() {
               onClick={() => setShowPO(true)}
             >
               <Plus size={18} className="group-hover:rotate-90 transition-transform" />
-              Draft Purchase Order
+              Create Purchase Order
             </button>
           </div>
 
@@ -232,8 +232,8 @@ export function SupplierManagement() {
                 <thead>
                   <tr>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">PO ID</th>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Supplier Authority</th>
-                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Placed</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Supplier Name</th>
+                    <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Order Date</th>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">ETA</th>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Batch Size</th>
                     <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Total Payable</th>
@@ -271,12 +271,12 @@ export function SupplierManagement() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
-                  <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Trans ID</th>
+                  <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Transaction ID</th>
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Linked PO</th>
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">Payee</th>
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Settled On</th>
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Amount</th>
-                  <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Gateway</th>
+                
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Status</th>
                   <th className="px-6 py-5 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Settlement</th>
                 </tr>
@@ -289,7 +289,7 @@ export function SupplierManagement() {
                     <td className="px-6 py-5 text-sm font-bold text-slate-900">{p.supplier}</td>
                     <td className="px-6 py-5 text-sm font-bold text-slate-500 text-center">{p.date}</td>
                     <td className="px-6 py-5 text-sm font-bold text-slate-900 text-right">₹{p.amount.toLocaleString()}</td>
-                    <td className="px-6 py-5 text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest text-center">{p.method}</td>
+                    
                     <td className="px-6 py-5 text-center">
                       <span className={`px-4 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-widest ${p.status === "Paid" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
                         }`}>
@@ -319,20 +319,20 @@ export function SupplierManagement() {
           <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl p-10 flex flex-col gap-8 animate-in zoom-in-95 duration-200">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">Register Supplier</h2>
-              <p className="text-xs font-bold text-slate-400 mt-2 uppercase tracking-widest">Digital Procurement Portal</p>
+              
             </div>
 
             <div className="space-y-5">
               <input
                 className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                placeholder="Merchant entity name"
+                placeholder="Add Supplier Name"
                 value={newSupplier.name}
                 onChange={e => setNewSupplier({ ...newSupplier, name: e.target.value })}
               />
               <div className="grid grid-cols-2 gap-4">
                 <input
                   className="h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                  placeholder="Primary contact"
+                  placeholder="Contact Number"
                   value={newSupplier.contact}
                   onChange={e => setNewSupplier({ ...newSupplier, contact: e.target.value })}
                 />
@@ -345,14 +345,14 @@ export function SupplierManagement() {
               </div>
               <textarea
                 className="w-full p-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all resize-none h-32"
-                placeholder="Registered business address"
+                placeholder="Address"
                 value={newSupplier.address}
                 onChange={e => setNewSupplier({ ...newSupplier, address: e.target.value })}
               />
               <input
                 type="number"
                 className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                placeholder="Negotiated profit margin (%)"
+                placeholder="Profit margin (%)"
                 value={newSupplier.profitMargin}
                 onChange={e => setNewSupplier({ ...newSupplier, profitMargin: e.target.value })}
               />
@@ -363,13 +363,13 @@ export function SupplierManagement() {
                 className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm shadow-xl shadow-slate-200 transition-all active:scale-95 hover:bg-slate-800"
                 onClick={handleAddSupplier}
               >
-                Onboard Merchant
+                Add Supplier
               </button>
               <button
                 className="px-8 py-4 bg-white border border-slate-200 text-slate-400 font-bold rounded-2xl transition-all hover:bg-slate-50 active:scale-95"
                 onClick={() => setShowAdd(false)}
               >
-                Discard
+                Cancel
               </button>
             </div>
           </div>
@@ -380,8 +380,8 @@ export function SupplierManagement() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-6 animate-in fade-in duration-200">
           <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl p-10 flex flex-col gap-8 animate-in zoom-in-95 duration-200">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">Draft Purchase Order</h2>
-              <p className="text-xs font-bold text-slate-400 mt-2 uppercase tracking-widest">Procurement Department</p>
+              <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">Create Purchase Order</h2>
+             
             </div>
 
             <div className="space-y-5">
@@ -391,7 +391,7 @@ export function SupplierManagement() {
                   value={newPO.supplier}
                   onChange={e => setNewPO({ ...newPO, supplier: e.target.value })}
                 >
-                  <option value="">Authorized Supplier Authority</option>
+                  <option value="">Select Supplier</option>
                   {suppliers.filter(s => s.status === "Active").map(s => (
                     <option key={s.id} value={s.name}>{s.name}</option>
                   ))}
@@ -408,14 +408,14 @@ export function SupplierManagement() {
               />
               <textarea
                 className="w-full p-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all resize-none h-32"
-                placeholder="Enumerate items and required bulk quantities..."
+                placeholder="Enter medicine name and quantities..."
                 value={newPO.items}
                 onChange={e => setNewPO({ ...newPO, items: e.target.value })}
               />
               <input
                 type="number"
                 className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
-                placeholder="Gross PO Value (₹)"
+                placeholder="Total Amount (₹)"
                 value={newPO.amount}
                 onChange={e => setNewPO({ ...newPO, amount: e.target.value })}
               />
@@ -426,7 +426,7 @@ export function SupplierManagement() {
                 className="flex-1 py-4 bg-emerald-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
                 onClick={handleCreatePO}
               >
-                Log Purchase Order
+                Create Order
               </button>
               <button
                 className="px-8 py-4 bg-white border border-slate-200 text-slate-400 font-bold rounded-2xl transition-all hover:bg-slate-50 active:scale-95"
@@ -446,21 +446,21 @@ export function SupplierManagement() {
               <Trash2 size={32} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Terminate Partnership?</h2>
-              <p className="text-sm font-medium text-slate-500 mt-2">This action is irreversible and will purge the supplier from central records.</p>
+              <h2 className="text-xl font-bold text-slate-900">Delete Supplier</h2>
+              <p className="text-sm font-medium text-slate-500 mt-2">This action is irreversible and will remove the supplier from central records.</p>
             </div>
             <div className="flex w-full gap-4">
               <button
                 className="flex-1 py-4 bg-rose-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-rose-200 transition-all active:scale-95 hover:bg-rose-700"
                 onClick={confirmDelete}
               >
-                Terminate
+                Delete
               </button>
               <button
                 className="flex-1 py-4 bg-slate-100 text-slate-400 font-bold text-sm rounded-2xl transition-all hover:bg-slate-200 active:scale-95"
                 onClick={() => setShowDelete(false)}
               >
-                Hold
+                Cancel
               </button>
             </div>
           </div>

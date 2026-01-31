@@ -219,9 +219,7 @@ export function AdminDashboard() {
                       {staff.status || 'Active'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 border-b border-slate-50 align-middle text-right">
-                    <button className="bg-transparent border-none text-slate-400 cursor-pointer p-1 hover:text-slate-600 transition-colors"><MoreVertical size={16} /></button>
-                  </td>
+                
                 </tr>
               ))}
             </tbody>
