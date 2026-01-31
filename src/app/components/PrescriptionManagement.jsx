@@ -12,6 +12,7 @@ import {
   Plus,
   Calendar,
   UserCheck,
+  X,
 } from "lucide-react";
 import { Pagination } from "./Pagination.jsx";
 
@@ -265,7 +266,7 @@ export function PrescriptionManagement() {
       {showViewModal && selectedPrescription && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-6 animate-in fade-in duration-200">
           <div className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+            <div className="p-8 border-b border-slate-50 bg-slate-50/50">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center">
                   <FileText size={24} />
@@ -275,16 +276,9 @@ export function PrescriptionManagement() {
                   <p className="text-[0.65rem] font-bold text-blue-500 tracking-widest uppercase mt-0.5">{selectedPrescription.id}</p>
                 </div>
               </div>
-              <button
-                onClick={() => setShowViewModal(false)}
-                className="p-2.5 text-slate-400 hover:text-white hover:bg-red-500 transition-all duration-200 rounded-xl hover:scale-110 active:scale-95 shadow-sm hover:shadow-md"
-                title="Close"
-              >
-                <XCircle size={24} />
-              </button>
             </div>
 
-            <div className="p-8 space-y-8">
+            <div className="p-8 space-y-8 max-h-[60vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-1">
                   <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Patient Name</span>
@@ -332,7 +326,7 @@ export function PrescriptionManagement() {
                   </div>
                   <div>
                     <div className="text-base font-bold tracking-tight">{selectedPrescription.prescriptionImage}</div>
-                    <p className="text-[0.65rem] text-slate-400 font-bold uppercase tracking-widest mt-1">High-Resolution Digital Scan</p>
+                    
                   </div>
                 </div>
               </div>
@@ -346,10 +340,11 @@ export function PrescriptionManagement() {
                 <Eye size={20} /> Preview Scan
               </button>
               <button
-                className="px-8 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50 transition-all active:scale-95"
+                className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-xl"
                 onClick={() => setShowViewModal(false)}
               >
-                Dismiss
+                <X size={20} />
+                Close
               </button>
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
   Printer,
   ShoppingCart,
   Info,
+  X,
 } from "lucide-react";
 import { Pagination } from "./Pagination.jsx";
 import { useSales } from "../contexts/SalesContext.jsx";
@@ -78,11 +79,11 @@ export function POSInterface() {
 
   const generateBill = () => {
     if (!cart.length) {
-      toast.error("Query inhibited: Empty transaction payload");
+      toast.error("Empty transaction details");
       return;
     }
     if (!customerName.trim() || !customerPhone.trim()) {
-      toast.error("Incomplete entity metadata: Customer info required");
+      toast.error("Customer info required");
       return;
     }
     setShowReceipt(true);
@@ -91,7 +92,7 @@ export function POSInterface() {
   const printReceipt = () => {
     addSale(total, user?.id);
     deductStock(cart);
-    toast.success("Transaction Ledger Synchronized & Printed");
+    toast.success("Transaction Completed");
     setCart([]);
     setCustomerName("");
     setCustomerPhone("");
@@ -105,7 +106,7 @@ export function POSInterface() {
 
   return (
     <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-6 md:gap-10">
-     
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10 items-start">
         <div className="lg:col-span-2 flex flex-col gap-6 md:gap-10">
@@ -213,7 +214,7 @@ export function POSInterface() {
 
           <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40 flex flex-col min-h-[400px] md:min-h-[500px]">
             <div className="flex justify-between items-center mb-10">
-            
+
               <span className="px-4 py-1.5 text-black  text-[1.2rem] font-bold uppercase tracking-widest whitespace-nowrap">  Cart Items({cart.length}) </span>
             </div>
 
@@ -295,61 +296,81 @@ export function POSInterface() {
       </div>
 
       {showReceipt && (
-        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-6 backdrop-blur-xl">
-          <div className="bg-white p-10 rounded-[3rem] w-full max-w-md shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in duration-300 border border-white">
-            <div className="flex flex-col items-center mb-10">
-              <div className="w-20 h-20 bg-emerald-50 rounded-[2rem] flex items-center justify-center mb-6 shadow-inner shadow-emerald-100">
-                <Printer className="text-emerald-600" size={36} />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">PharmaCare Record</h3>
-              <p className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.3em] mt-3">Auth Sequence Validated</p>
-            </div>
-
-            <div className="space-y-4 mb-10 bg-slate-50 p-8 rounded-[2rem] border border-slate-100 text-xs font-bold ring-1 ring-slate-100">
-              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Consignee</span> <span className="text-slate-900">{customerName}</span></div>
-              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Contact</span> <span className="text-slate-900">{customerPhone}</span></div>
-              <div className="flex justify-between uppercase tracking-widest text-[0.6rem] text-slate-400"><span>Log Date</span> <span className="text-slate-900">{new Date().toLocaleDateString()}</span></div>
-            </div>
-
-            <div className="mb-10 max-h-[250px] overflow-y-auto space-y-6 px-2 scrollbar-hide">
-              {cart.map((item) => (
-                <div key={item.id} className="flex justify-between items-start">
-                  <div>
-                    <div className="text-[0.7rem] font-bold text-slate-900 uppercase tracking-tight">{item.name}</div>
-                    <div className="text-[0.6rem] text-slate-400 font-bold uppercase tracking-widest mt-1">₹{item.price.toFixed(2)} × {item.quantity}</div>
-                  </div>
-                  <span className="text-[0.7rem] font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</span>
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-6 animate-in fade-in duration-200">
+          <div className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="p-8 border-b border-slate-50 bg-slate-50/50">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center">
+                  <Printer size={24} />
                 </div>
-              ))}
-            </div>
-
-            <div className="border-t-4 border-double border-slate-100 pt-8 space-y-4 mb-10">
-              <div className="flex justify-between text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                <span>Base Load</span>
-                <span>₹{subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                <span>System Surcharge</span>
-                <span>₹{tax.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between font-bold text-slate-900 text-xl pt-4 border-t border-slate-50">
-                <span className="tracking-tighter uppercase text-[0.6rem] text-slate-400 bg-slate-50 px-3 py-1 rounded-lg">Validated Total</span>
-                <span className="text-emerald-600 tracking-tighter">₹{total.toFixed(2)}</span>
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 tracking-tight">Bill Receipt</h2>
+                  <p className="text-[0.65rem] font-bold text-emerald-500 tracking-widest uppercase mt-0.5">PharmaCare</p>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="p-8 space-y-8 max-h-[60vh] overflow-y-auto">
+              <div className="grid grid-cols-2 gap-8">
+                <div className="space-y-1">
+                  <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Customer Name</span>
+                  <div className="text-base font-bold text-slate-900">{customerName}</div>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Customer Phone</span>
+                  <div className="text-base font-bold text-slate-900">{customerPhone}</div>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Date</span>
+                  <div className="text-base font-bold text-slate-900">{new Date().toLocaleDateString()}</div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Items Purchased</span>
+                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 space-y-3">
+                  {cart.map((item) => (
+                    <div key={item.id} className="flex justify-between items-start">
+                      <div>
+                        <div className="text-sm font-bold text-slate-900">{item.name}</div>
+                        <div className="text-xs text-slate-400 font-bold mt-1">₹{item.price.toFixed(2)} × {item.quantity}</div>
+                      </div>
+                      <span className="text-sm font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm font-bold text-slate-400">
+                  <span>Subtotal</span>
+                  <span>₹{subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm font-bold text-slate-400">
+                  <span>Tax (5%)</span>
+                  <span>₹{tax.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                  <span className="text-sm font-bold text-emerald-600 uppercase tracking-wide">Total Amount</span>
+                  <span className="text-2xl font-bold text-emerald-700">₹{total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-8 bg-slate-50/50 border-t border-slate-50 flex gap-4">
               <button
-                className="w-full h-16 bg-emerald-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.3em] rounded-2xl flex items-center justify-center gap-4 hover:bg-emerald-700 transition-all active:scale-[0.98] shadow-2xl shadow-emerald-200"
+                className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-200"
                 onClick={printReceipt}
               >
-                <Printer size={20} /> Execute Print
+                <Printer size={20} />
+                Print Receipt
               </button>
               <button
-                className="w-full h-14 bg-slate-50 text-slate-400 font-bold text-[0.6rem] uppercase tracking-[0.3em] rounded-2xl hover:bg-slate-100 transition-all active:scale-[0.98]"
+                className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-xl"
                 onClick={() => setShowReceipt(false)}
               >
-                Abort Log
+                <X size={20} />
+                Close
               </button>
             </div>
           </div>

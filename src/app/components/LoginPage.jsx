@@ -2,23 +2,40 @@ import React, { useState } from "react";
 import { Pill, Lock, Mail, Sparkles, ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Please enter a valid email address"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});
 
 export function LoginPage({ onNavigateBack }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const { login } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit = async (data) => {
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(data.email, data.password);
     } catch (error) {
-      setError("Invalid email or password. Please check your credentials.");
+      toast.error("Invalid email or password. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -67,14 +84,7 @@ export function LoginPage({ onNavigateBack }) {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="bg-rose-50 border border-rose-100 text-rose-600 px-5 py-4 rounded-2xl text-sm font-bold flex items-center gap-3 animate-shake">
-              <span className="text-lg">⚠️</span>
-              {error}
-            </div>
-          )}
-
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-bold text-slate-700 ml-1">
               Email Address
@@ -84,14 +94,16 @@ export function LoginPage({ onNavigateBack }) {
               <input
                 id="email"
                 type="text"
-                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300"
+                className={`w-full h-14 pl-14 pr-6 bg-slate-50 border rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300 ${errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-slate-200"
+                  }`}
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                {...register("email")}
                 disabled={loading}
               />
             </div>
+            {errors.email && (
+              <p className="text-red-500 text-xs font-semibold ml-1 mt-1">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -113,20 +125,22 @@ export function LoginPage({ onNavigateBack }) {
               <input
                 id="password"
                 type="password"
-                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300"
+                className={`w-full h-14 pl-14 pr-6 bg-slate-50 border rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300 ${errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-slate-200"
+                  }`}
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                {...register("password")}
                 disabled={loading}
               />
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs font-semibold ml-1 mt-1">{errors.password.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
             className="w-full h-16 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-emerald-600 hover:to-emerald-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-emerald-900/10 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3 group"
-            disabled={loading || !email || !password}
+            disabled={loading}
           >
             {loading ? (
               <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />

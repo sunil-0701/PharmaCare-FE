@@ -6,21 +6,21 @@ const AuthContext = createContext(undefined);
 const VALID_USERS = [
   {
     email: "admin@pharmacare.com",
-    password: "1234",
+    password: "123456",
     role: "admin",
     name: "Admin",
     id: "1"
   },
   {
     email: "pharmacist@pharmacare.com",
-    password: "1234",
+    password: "123456",
     role: "pharmacist",
     name: "Pharmacist",
     id: "2"
   },
   {
     email: "inventory@pharmacare.com",
-    password: "1234",
+    password: "123456",
     role: "inventory",
     name: "Inventory Manager",
     id: "3"
