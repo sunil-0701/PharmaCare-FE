@@ -96,72 +96,72 @@ export function InventoryDashboard() {
   };
 
   return (
-    <div className="flex flex-col gap-6 bg-gray-50 min-h-screen p-4 md:p-6">
-      <div className="flex flex-col lg:flex-row justify-between items-start bg-white p-5 rounded-xl border border-gray-200 gap-4">
+    <div className="flex flex-col gap-6 bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100/50 min-h-screen p-4 md:p-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start bg-white p-5 rounded-xl border border-gray-200/80 gap-4 shadow-sm hover:shadow-md transition-all duration-200">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 leading-none">Inventory Management</h1>
-          <p className="text-gray-500 text-[0.9rem] mt-1">Monitor stock levels and expiry dates</p>
+          <h1 className="text-2xl font-bold text-gray-900 leading-none tracking-tight">Inventory Management</h1>
+          <p className="text-gray-500 text-[0.9rem] mt-1 tracking-wide">Monitor stock levels and expiry dates</p>
         </div>
         <div className="text-left lg:text-right">
-          <div className="text-[0.8rem] text-gray-400">Logged in as</div>
-          <div className="font-semibold text-gray-900 leading-tight">Inventory Manager</div>
-          <div className="text-[0.8rem] text-gray-500">inventory@pharmacare.com</div>
+          <div className="text-[0.8rem] text-gray-400 tracking-wide">Logged in as</div>
+          <div className="font-semibold text-gray-900 leading-tight tracking-wide">Inventory Manager</div>
+          <div className="text-[0.8rem] text-gray-500 tracking-wide">inventory@pharmacare.com</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
-          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-blue-50 text-blue-600">
-            <Package size={24} />
+        <div className="group bg-white p-6 rounded-2xl border border-gray-200/80 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200/50 shadow-sm cursor-pointer">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-blue-50 to-blue-100/50 text-blue-600 shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
+            <Package size={24} className="group-hover:scale-110 transition-transform duration-300" />
           </div>
           <div className="flex flex-col">
-            <div className="text-3xl font-bold text-gray-900 leading-tight">{totalItems}</div>
-            <div className="text-sm font-semibold text-gray-600">Total Items</div>
-            <div className="text-[0.75rem] text-gray-400 mt-0.5">Unique medicines</div>
+            <div className="text-3xl font-bold text-gray-900 leading-tight tracking-tight">{totalItems}</div>
+            <div className="text-sm font-semibold text-gray-600 tracking-wide">Total Items</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5 tracking-wide">Unique medicines</div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-red-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
-          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-red-50 text-red-600">
-            <AlertTriangle size={24} />
+        <div className="group bg-white p-6 rounded-2xl border border-gray-200/80 border-b-4 border-b-red-500 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-500/10 shadow-sm cursor-pointer">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-red-50 to-red-100/50 text-red-600 shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
+            <AlertTriangle size={24} className="group-hover:scale-110 transition-transform duration-300" />
           </div>
           <div className="flex flex-col">
-            <div className="text-3xl font-bold text-gray-900 leading-tight">{lowStockItems}</div>
-            <div className="text-sm font-semibold text-gray-600">Low Stock</div>
-            <div className="text-[0.75rem] text-gray-400 mt-0.5">Need reordering</div>
+            <div className="text-3xl font-bold text-gray-900 leading-tight tracking-tight">{lowStockItems}</div>
+            <div className="text-sm font-semibold text-gray-600 tracking-wide">Low Stock</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5 tracking-wide">Need reordering</div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-amber-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
-          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-amber-50 text-amber-600">
-            <AlertTriangle size={24} />
+        <div className="group bg-white p-6 rounded-2xl border border-gray-200/80 border-b-4 border-b-amber-500 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/10 shadow-sm cursor-pointer">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-amber-50 to-amber-100/50 text-amber-600 shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
+            <AlertTriangle size={24} className="group-hover:scale-110 transition-transform duration-300" />
           </div>
           <div className="flex flex-col">
-            <div className="text-3xl font-bold text-gray-900 leading-tight">{expiringSoonItems}</div>
-            <div className="text-sm font-semibold text-gray-600">Expiring Soon</div>
-            <div className="text-[0.75rem] text-gray-400 mt-0.5">Within 90 days</div>
+            <div className="text-3xl font-bold text-gray-900 leading-tight tracking-tight">{expiringSoonItems}</div>
+            <div className="text-sm font-semibold text-gray-600 tracking-wide">Expiring Soon</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5 tracking-wide">Within 90 days</div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 border-b-4 border-b-emerald-500 flex items-center gap-5 transition-all hover:-translate-y-1 hover:shadow-lg shadow-sm">
-          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-emerald-50 text-emerald-600">
-            <TrendingUp size={24} />
+        <div className="group bg-white p-6 rounded-2xl border border-gray-200/80 border-b-4 border-b-emerald-500 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/10 shadow-sm cursor-pointer">
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-emerald-50 to-emerald-100/50 text-emerald-600 shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
+            <TrendingUp size={24} className="group-hover:scale-110 transition-transform duration-300" />
           </div>
           <div className="flex flex-col">
-            <div className="text-3xl font-bold text-gray-900 leading-tight">{wellStockedItems}</div>
-            <div className="text-sm font-semibold text-gray-600">Well Stocked</div>
-            <div className="text-[0.75rem] text-gray-400 mt-0.5">Adequate stock</div>
+            <div className="text-3xl font-bold text-gray-900 leading-tight tracking-tight">{wellStockedItems}</div>
+            <div className="text-sm font-semibold text-gray-600 tracking-wide">Well Stocked</div>
+            <div className="text-[0.75rem] text-gray-400 mt-0.5 tracking-wide">Adequate stock</div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-gray-200 gap-4">
-        <div className="relative w-full sm:w-[300px]">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+      <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-gray-200/80 gap-4 shadow-sm">
+        <div className="relative w-full sm:w-[300px] group">
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-500 transition-colors duration-200" />
           <input
             type="text"
             placeholder="Search medicines..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 focus:bg-white text-sm transition-all duration-200 hover:border-gray-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -169,10 +169,10 @@ export function InventoryDashboard() {
         <div className="flex gap-3 w-full sm:w-auto">
           <div className="relative">
             <button
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-all"
+              className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-95 tracking-wide"
               onClick={() => setShowFilterModal(!showFilterModal)}
             >
-              <Filter size={16} /> Filter
+              <Filter size={16} className="transition-transform duration-200 group-hover:scale-110" /> Filter
             </button>
 
             {showFilterModal && (
@@ -237,50 +237,50 @@ export function InventoryDashboard() {
           </div>
 
           <button
-            className="flex-1 sm:flex-none px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-100"
+            className="flex-1 sm:flex-none px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-md tracking-wide"
             onClick={() => navigate('/inventory/add-batch')}
           >
-            <Plus size={16} /> Add Medicine
+            <Plus size={16} className="transition-transform duration-200 group-hover:scale-110" /> Add Medicine
           </button>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <h3 className="text-lg font-bold text-gray-800 mb-6">Real-Time Stock Status</h3>
+      <div className="bg-white p-6 rounded-xl border border-gray-200/80 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+        <h3 className="text-lg font-bold text-gray-800 mb-6 tracking-tight">Real-Time Stock Status</h3>
 
         <div className="overflow-x-auto -mx-6 px-6">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-gray-50/50">
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Medicine Name</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Batch No</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Mfg. Date</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Expiry Date</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Quantity</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Supplier</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Status</th>
-                <th className="text-left py-4 px-3 font-bold text-gray-500 border-b border-gray-100">Actions</th>
+              <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50">
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Medicine Name</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Batch No</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Mfg. Date</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Expiry Date</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Quantity</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Supplier</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Status</th>
+                <th className="text-left py-4 px-3 font-bold text-gray-600 border-b border-gray-100 tracking-wide">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {pagedData.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/30 transition-colors">
+                <tr key={item.id} className="group hover:bg-gray-50/70 transition-all duration-200 hover:shadow-sm cursor-pointer">
                   <td className="py-4 px-3">
                     <div className="flex flex-col">
-                      <div className="font-bold text-gray-900">{item.name}</div>
+                      <div className="font-bold text-gray-900 tracking-wide">{item.name}</div>
                       {item.category && (
-                        <div className="text-[0.7rem] text-gray-400 mt-0.5">{item.category}</div>
+                        <div className="text-[0.7rem] text-gray-400 mt-0.5 tracking-wide">{item.category}</div>
                       )}
                     </div>
                   </td>
-                  <td className="py-4 px-3 text-gray-600 font-medium">{item.batchNo}</td>
-                  <td className="py-4 px-3 text-gray-500">{item.manufactureDate}</td>
-                  <td className="py-4 px-3 text-gray-500 font-medium whitespace-nowrap">{item.expiry}</td>
+                  <td className="py-4 px-3 text-gray-600 font-medium tracking-wide">{item.batchNo}</td>
+                  <td className="py-4 px-3 text-gray-500 tracking-wide">{item.manufactureDate}</td>
+                  <td className="py-4 px-3 text-gray-500 font-medium whitespace-nowrap tracking-wide">{item.expiry}</td>
                   <td className="py-4 px-3 text-gray-900 font-bold tabular-nums">{item.quantity}</td>
-                  <td className="py-4 px-3 text-gray-600 font-medium">{item.supplier}</td>
+                  <td className="py-4 px-3 text-gray-600 font-medium tracking-wide">{item.supplier}</td>
                   <td className="py-4 px-3">
                     {item.status && (
-                      <span className={`px-2.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider whitespace-nowrap ${item.status === 'Low Stock' ? 'bg-red-50 text-red-600 ring-1 ring-inset ring-red-100' :
+                      <span className={`px-2.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm ${item.status === 'Low Stock' ? 'bg-red-50 text-red-600 ring-1 ring-inset ring-red-100' :
                         item.status === 'Near Expiry' ? 'bg-amber-50 text-amber-600 ring-1 ring-inset ring-amber-100' :
                           'bg-gray-50 text-gray-500'
                         }`}>
@@ -290,7 +290,7 @@ export function InventoryDashboard() {
                   </td>
                   <td className="py-4 px-3">
                     <button
-                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95"
                       onClick={() => handleDelete(item.id)}
                       title="Delete"
                     >

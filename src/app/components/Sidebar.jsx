@@ -62,43 +62,43 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
       )}
 
       <aside className={`
-        fixed inset-y-0 left-0 z-50 lg:static lg:flex h-screen bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-50 lg:static lg:flex h-screen bg-gradient-to-b from-white via-gray-50/50 to-gray-100/30 border-r border-gray-200/80 shadow-xl flex flex-col transition-all duration-300 ease-out
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         ${isCollapsed ? "lg:w-20" : "lg:w-[260px]"}
         w-[280px]
       `}>
         {/* Mobile Close Button */}
         <button
-          className="lg:hidden absolute top-4 right-4 p-2 text-slate-500 hover:bg-slate-50 rounded-xl transition-colors"
+          className="lg:hidden absolute top-4 right-4 p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 rounded-xl transition-all duration-200 hover:scale-110 active:scale-95"
           onClick={onClose}
         >
           <X size={20} />
         </button>
 
         <button
-          className="hidden lg:flex absolute top-4 -right-3 bg-white border border-gray-200 rounded-full w-7 h-7 cursor-pointer items-center justify-center z-10 shadow-sm hover:bg-gray-50"
+          className="hidden lg:flex absolute top-4 -right-3 bg-white border border-gray-200 rounded-full w-7 h-7 cursor-pointer items-center justify-center z-10 shadow-md hover:shadow-lg hover:bg-gray-50 hover:scale-110 transition-all duration-200 active:scale-95"
           onClick={() => setIsCollapsed(!isCollapsed)}
           aria-label="Toggle sidebar"
         >
           {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
 
-        <div className="flex items-center gap-3 px-4 py-6 overflow-hidden">
-          <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-2.5 rounded-xl flex-shrink-0">
-            <Pill size={24} />
+        <div className="flex items-center gap-3 px-4 py-6 overflow-hidden group">
+          <div className="bg-gradient-to-br from-emerald-600 via-emerald-500 to-emerald-600 text-white p-2.5 rounded-xl flex-shrink-0 shadow-lg shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-all duration-300 group-hover:scale-105">
+            <Pill size={24} className="drop-shadow-sm" />
           </div>
           {!isCollapsed && (
             <div className="min-w-0">
-              <h1 className="text-lg font-bold truncate">PharmaCare</h1>
-              <p className="text-[0.75rem] text-gray-500 truncate">Healthcare System</p>
+              <h1 className="text-lg font-bold truncate tracking-tight">PharmaCare</h1>
+              <p className="text-[0.75rem] text-gray-500 truncate tracking-wide">Healthcare System</p>
             </div>
           )}
         </div>
 
         {!isCollapsed && user?.role && (
-          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-semibold ${roleStyles[user.role] || ""}`}>
-            <span className="opacity-70 text-xs block mb-0.5">ROLE</span>
-            <strong className="capitalize">{user.role}</strong>
+          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-semibold shadow-sm border border-white/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md ${roleStyles[user.role] || ""}`}>
+            <span className="opacity-70 text-xs block mb-0.5 tracking-wider uppercase">Role</span>
+            <strong className="capitalize tracking-wide">{user.role}</strong>
           </div>
         )}
 
@@ -109,14 +109,14 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
               <button
                 key={id}
                 className={`flex items-center gap-3 py-2.5 px-3 rounded-xl border-none cursor-pointer w-full transition-all duration-200 group ${active
-                  ? "bg-emerald-50 text-emerald-600 font-semibold"
-                  : "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium"
+                  ? "bg-gradient-to-r from-emerald-50 to-emerald-100/50 text-emerald-700 font-semibold shadow-sm border border-emerald-200/50 scale-[1.02]"
+                  : "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium hover:scale-[1.01] hover:shadow-sm active:scale-[0.99]"
                   }`}
                 onClick={() => onViewChange(id)}
                 title={isCollapsed ? label : undefined}
               >
-                <Icon size={20} className={active ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-600"} />
-                {!isCollapsed && <span className="text-sm font-medium">{label}</span>}
+                <Icon size={20} className={`transition-all duration-200 ${active ? "text-emerald-600 drop-shadow-sm" : "text-gray-400 group-hover:text-gray-700 group-hover:scale-110"}`} />
+                {!isCollapsed && <span className="text-sm font-medium tracking-wide">{label}</span>}
               </button>
             );
           })}
@@ -125,18 +125,18 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
         <div className="p-4 border-t border-gray-200">
           {!isCollapsed && (
             <div className="mb-3 px-1">
-              <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
-              <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+              <p className="text-sm font-semibold text-gray-900 truncate tracking-wide">{user?.name}</p>
+              <p className="text-xs text-gray-500 truncate tracking-wide">{user?.email}</p>
             </div>
           )}
 
           <button
-            className="w-full flex items-center gap-3 bg-transparent border border-gray-200 rounded-xl p-2.5 cursor-pointer hover:bg-red-50 hover:text-red-700 hover:border-red-100 transition-all duration-200 group"
+            className="w-full flex items-center gap-3 bg-transparent border border-gray-200 rounded-xl p-2.5 cursor-pointer hover:bg-red-50 hover:text-red-700 hover:border-red-200 hover:shadow-md transition-all duration-200 group hover:scale-[1.02] active:scale-[0.98]"
             onClick={logout}
             title={isCollapsed ? "Logout" : undefined}
           >
-            <LogOut size={20} className="text-gray-400 group-hover:text-red-500" />
-            {!isCollapsed && <span className="text-sm font-semibold">Logout</span>}
+            <LogOut size={20} className="text-gray-400 group-hover:text-red-500 transition-all duration-200 group-hover:scale-110" />
+            {!isCollapsed && <span className="text-sm font-semibold tracking-wide">Logout</span>}
           </button>
         </div>
       </aside>

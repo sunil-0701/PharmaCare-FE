@@ -78,9 +78,9 @@ export function StaffManagement() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          { label: "Total Members", val: users.length, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "Active Nodes", val: users.filter(s => s.status === "Active").length, icon: UserCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Admin Core", val: users.filter(s => s.role === "admin").length, icon: Shield, color: "text-amber-600", bg: "bg-amber-50" }
+          { label: "Total Staff", val: users.length, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: "Active Staff", val: users.filter(s => s.status === "Active").length, icon: UserCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: "Admin Staff", val: users.filter(s => s.role === "admin").length, icon: Shield, color: "text-amber-600", bg: "bg-amber-50" }
         ].map((stat, i) => (
           <div key={i} className="bg-white p-7 rounded-[2.5rem] border border-slate-100 flex items-center gap-6 shadow-sm shadow-slate-200/50 group hover:shadow-xl transition-all">
             <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${stat.bg} ${stat.color} shadow-lg shadow-slate-100 group-hover:scale-110 transition-transform`}>

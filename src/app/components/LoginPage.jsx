@@ -45,11 +45,11 @@ export function LoginPage({ onNavigateBack }) {
       {onNavigateBack && (
         <div className="absolute top-24 left-8 z-10">
           <button
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-white/50 transition-all font-bold text-sm active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-white/70 hover:shadow-md transition-all duration-200 font-bold text-sm hover:scale-105 active:scale-95"
             onClick={onNavigateBack}
             type="button"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={18} className="transition-transform duration-200 group-hover:-translate-x-1" />
             <span>Back</span>
           </button>
         </div>
@@ -80,11 +80,11 @@ export function LoginPage({ onNavigateBack }) {
               Email Address
             </label>
             <div className="relative group">
-              <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
+              <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-all duration-200 group-focus-within:scale-110" />
               <input
                 id="email"
                 type="text"
-                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white"
+                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -101,7 +101,7 @@ export function LoginPage({ onNavigateBack }) {
               </label>
               <button
                 type="button"
-                className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
+                className="text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:scale-105 transition-all duration-200 active:scale-95"
                 onClick={() => toast.info("Please contact your administrator to reset your password")}
                 disabled={loading}
               >
@@ -109,11 +109,11 @@ export function LoginPage({ onNavigateBack }) {
               </button>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
+              <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-all duration-200 group-focus-within:scale-110" />
               <input
                 id="password"
                 type="password"
-                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white"
+                className="w-full h-14 pl-14 pr-6 bg-slate-50 border border-slate-200 rounded-2xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -125,7 +125,7 @@ export function LoginPage({ onNavigateBack }) {
 
           <button
             type="submit"
-            className="w-full h-16 bg-slate-900 hover:bg-emerald-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-emerald-900/10 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3 group"
+            className="w-full h-16 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-emerald-600 hover:to-emerald-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-emerald-900/10 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3 group"
             disabled={loading || !email || !password}
           >
             {loading ? (
@@ -133,7 +133,7 @@ export function LoginPage({ onNavigateBack }) {
             ) : (
               <>
                 Sign In to Dashboard
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               </>
             )}
           </button>
@@ -143,7 +143,7 @@ export function LoginPage({ onNavigateBack }) {
               <p className="text-[1rem] text-slate-500 leading-relaxed font-medium flex gap-3">
                 <span className="text-emerald-600 text-lg">ℹ️</span>
                 <span>
-                 User accounts are created and managed by the administrator.
+                  User accounts are created and managed by the administrator.
                 </span>
               </p>
             </div>

@@ -10,26 +10,26 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-10">
-      <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+    <div className="p-8 bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100/50 min-h-screen text-slate-700 font-sans flex flex-col gap-10">
+      <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100/80 shadow-xl hover:shadow-2xl transition-all duration-300">
         <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none">System Settings</h1>
         <p className="text-slate-500 font-medium mt-3 uppercase tracking-widest text-[0.65rem] leading-none">Global Preferences & Settings</p>
       </div>
 
-      <div className="flex items-center gap-2 p-1.5 bg-slate-200/50 rounded-2xl w-fit">
+      <div className="flex items-center gap-2 p-1.5 bg-slate-200/50 rounded-2xl w-fit shadow-sm">
         <button
-          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all ${tab === "general"
-            ? "bg-white text-emerald-600 shadow-sm shadow-slate-200"
-            : "text-slate-500 hover:text-slate-900"
+          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all duration-200 ${tab === "general"
+            ? "bg-white text-emerald-600 shadow-md scale-105"
+            : "text-slate-500 hover:text-slate-900 hover:bg-white/50 hover:scale-105 active:scale-95"
             }`}
           onClick={() => setTab("general")}
         >
           General
         </button>
         <button
-          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all ${tab === "notifications"
-            ? "bg-white text-emerald-600 shadow-sm shadow-slate-200"
-            : "text-slate-500 hover:text-slate-900"
+          className={`px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all duration-200 ${tab === "notifications"
+            ? "bg-white text-emerald-600 shadow-md scale-105"
+            : "text-slate-500 hover:text-slate-900 hover:bg-white/50 hover:scale-105 active:scale-95"
             }`}
           onClick={() => setTab("notifications")}
         >
@@ -53,7 +53,7 @@ export function SettingsPage() {
             <div className="space-y-3">
               <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Pharmacy Name</label>
               <input
-                className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
+                className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white hover:border-slate-300 transition-all duration-200"
                 defaultValue="PharmaCare"
               />
             </div>
@@ -116,7 +116,7 @@ export function SettingsPage() {
             </div>
 
             <button
-              className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
+              className="px-10 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all duration-200 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-2xl hover:scale-[1.02] active:scale-95 tracking-wide"
               onClick={handleSave}
             >
               Save Changes
@@ -145,14 +145,14 @@ export function SettingsPage() {
                 { label: "Order Alerts", desc: "Get notified when an order is placed" },
                 { label: "Daily Alerts", desc: "Get notified for daily updates" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl group hover:border-emerald-200 hover:bg-emerald-50/30 transition-all">
+                <div key={index} className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl group hover:border-emerald-200 hover:bg-emerald-50/30 hover:shadow-md transition-all duration-200 cursor-pointer">
                   <div>
-                    <div className="text-sm font-bold text-slate-900">{item.label}</div>
-                    <p className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mt-1 group-hover:text-emerald-500 transition-colors">{item.desc}</p>
+                    <div className="text-sm font-bold text-slate-900 tracking-wide">{item.label}</div>
+                    <p className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mt-1 group-hover:text-emerald-600 transition-colors duration-200">{item.desc}</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" defaultChecked={index < 3} />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-500/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-500/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600 hover:bg-slate-300 peer-checked:hover:bg-emerald-700"></div>
                   </label>
                 </div>
               ))}
@@ -181,7 +181,7 @@ export function SettingsPage() {
             </div>
 
             <button
-              className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all active:scale-95 hover:bg-emerald-700"
+              className="px-10 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-2xl font-black text-sm shadow-xl shadow-emerald-200 transition-all duration-200 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-2xl hover:scale-[1.02] active:scale-95 tracking-wide"
               onClick={handleSave}
             >
               Save Settings

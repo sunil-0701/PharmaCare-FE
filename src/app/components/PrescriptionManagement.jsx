@@ -277,7 +277,8 @@ export function PrescriptionManagement() {
               </div>
               <button
                 onClick={() => setShowViewModal(false)}
-                className="p-3 text-slate-400 hover:text-slate-900 transition-colors rounded-2xl hover:bg-slate-200/50"
+                className="p-2.5 text-slate-400 hover:text-white hover:bg-red-500 transition-all duration-200 rounded-xl hover:scale-110 active:scale-95 shadow-sm hover:shadow-md"
+                title="Close"
               >
                 <XCircle size={24} />
               </button>
