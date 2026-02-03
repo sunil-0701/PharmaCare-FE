@@ -105,15 +105,15 @@ export function POSInterface() {
   );
 
   return (
-    <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-700 font-sans flex flex-col gap-6 md:gap-10">
+    <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-300 font-sans flex flex-col gap-6 md:gap-10">
 
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10 items-start">
         <div className="lg:col-span-2 flex flex-col gap-6 md:gap-10">
           <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/40">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-              <h3 className="text-xl font-bold text-slate-900 tracking-tight">Medicine Search</h3>
-              <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+              <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Medicine Search</h3>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
                 <div className="relative flex-1 md:w-80">
                   <Search size={18} className="absolute top-1/2 left-5 -translate-y-1/2 text-slate-400" />
                   <input
@@ -124,9 +124,9 @@ export function POSInterface() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <button className="h-14 px-6 bg-slate-900 text-white rounded-2xl flex items-center gap-3 font-bold text-[0.65rem] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
-                  <Barcode size={20} />
-                  Scanner
+                <button className="h-14 px-6 bg-slate-900 text-white rounded-2xl flex items-center justify-center gap-3 font-bold text-[0.65rem] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 whitespace-nowrap">
+                  <Barcode size={15} />
+                  <span>Scanner</span>
                 </button>
               </div>
             </div>
@@ -149,7 +149,7 @@ export function POSInterface() {
                         <div className="font-bold text-slate-900">{m.name}</div>
                         <div className="text-[0.6rem] font-bold text-blue-500 uppercase tracking-widest mt-1">Batch: {m.batchNo}</div>
                       </td>
-                      <td className="px-8 py-6 text-center text-sm font-bold text-slate-900 uppercase">₹{m.price.toFixed(2)}</td>
+                      <td className="px-8 py-6 text-center text-sm font-bold text-white uppercase">₹{m.price.toFixed(2)}</td>
                       <td className="px-8 py-6 text-center">
                         <span className={`px-3 py-1 rounded-xl text-[0.65rem] font-bold uppercase tracking-widest border whitespace-nowrap ${m.quantity < 50 ? "bg-rose-50 text-rose-500 border-rose-100" : "bg-blue-50 text-blue-500 border-blue-100"
                           }`}>
@@ -159,7 +159,7 @@ export function POSInterface() {
                       <td className="px-8 py-6 text-center text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">{m.expiry}</td>
                       <td className="px-8 py-6 text-right">
                         <button
-                          className="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all active:scale-90 shadow-sm shadow-emerald-50 ml-auto"
+                          className="h-10 w-10 bg-emerald-50 text-emerald-400 rounded-xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all active:scale-90 shadow-sm shadow-emerald-50 ml-auto"
                           onClick={() => addToCart(m)}
                         >
                           <Plus size={20} />
@@ -187,13 +187,13 @@ export function POSInterface() {
         </div>
 
         <div className="flex flex-col gap-6 md:gap-10">
-          <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40">
-            <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-8">Customer Details</h3>
+          <div className="bg-slate-950/40 border border-emerald-500/10 shadow-2xl shadow-black/20">
+            <h3 className="text-xl font-bold text-white tracking-tight mb-8">Customer Details</h3>
             <div className="space-y-6">
               <div className="space-y-2">
                 <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Customer Name</label>
                 <input
-                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-white focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder="Enter Customer Name..."
@@ -203,7 +203,7 @@ export function POSInterface() {
                 <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest ml-1">Customer Phone</label>
                 <input
                   type="tel"
-                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
+                  className="w-full h-14 px-6 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-white focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all placeholder:text-slate-300"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder="+91-00000-00000"
@@ -226,10 +226,10 @@ export function POSInterface() {
                 </div>
               ) : (
                 cart.map((item) => (
-                  <div key={item.id} className="p-5 bg-slate-50 border border-slate-100 rounded-[2rem] group hover:border-emerald-200 transition-all flex flex-col gap-4">
+                  <div key={item.id} className="p-5 bg-slate-900/60 border border-emerald-500/10 hover:border-emerald-500/30 rounded-[2rem] text-white transition-all flex flex-col gap-4">
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-bold text-slate-900 truncate uppercase tracking-tight">{item.name}</div>
+                        <div className="text-sm font-bold text-white truncate uppercase tracking-tight">{item.name}</div>
                         <div className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest mt-1">₹{item.price.toFixed(2)} / Unit</div>
                       </div>
                       <button
@@ -247,7 +247,7 @@ export function POSInterface() {
                         >
                           <Minus size={18} />
                         </button>
-                        <span className="w-10 text-center text-sm font-bold text-slate-900 tabular-nums">{item.quantity}</span>
+                        <span className="w-10 text-center text-sm font-bold text-white tabular-nums">{item.quantity}</span>
                         <button
                           className="w-10 h-10 rounded-lg hover:bg-slate-50 flex items-center justify-center text-slate-600 transition-all"
                           onClick={() => updateQuantity(item.id, 1)}
@@ -256,7 +256,7 @@ export function POSInterface() {
                         </button>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</div>
+                        <div className="text-sm font-bold text-white">₹{(item.price * item.quantity).toFixed(2)}</div>
                       </div>
                     </div>
                   </div>
@@ -274,8 +274,8 @@ export function POSInterface() {
                   <span> Tax (5%)</span>
                   <span>₹{tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100 mt-6 shadow-sm shadow-emerald-50">
-                  <span className="text-[0.7rem] font-bold text-emerald-600 uppercase tracking-[0.3em]">Total Amount</span>
+                <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 text-white">
+                  <span className="text-[0.7rem] font-bold text-emerald-400 uppercase tracking-[0.3em]">Total Amount</span>
                   <span className="text-2xl font-bold text-emerald-700 tracking-tighter">₹{total.toFixed(2)}</span>
                 </div>
               </div>
@@ -296,16 +296,16 @@ export function POSInterface() {
       </div>
 
       {showReceipt && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-6 animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="p-8 border-b border-slate-50 bg-slate-50/50">
+        <div className="fixed inset-0 bg-emerald-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-6 animate-in fade-in duration-200">
+          <div className="glass-dark rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 ring-1 ring-emerald-500/10">
+            <div className="p-8 border-b border-emerald-950/10 bg-emerald-950/20">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-emerald-900/30 text-emerald-300 rounded-2xl flex items-center justify-center">
                   <Printer size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900 tracking-tight">Bill Receipt</h2>
-                  <p className="text-[0.65rem] font-bold text-emerald-500 tracking-widest uppercase mt-0.5">PharmaCare</p>
+                  <h2 className="text-xl font-bold text-white tracking-tight">Bill Receipt</h2>
+                  <p className="text-[0.65rem] font-bold text-emerald-300 tracking-widest uppercase mt-0.5">PharmaCare</p>
                 </div>
               </div>
             </div>
@@ -314,15 +314,15 @@ export function POSInterface() {
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-1">
                   <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Customer Name</span>
-                  <div className="text-base font-bold text-slate-900">{customerName}</div>
+                  <div className="text-base font-bold text-white">{customerName}</div>
                 </div>
                 <div className="space-y-1">
                   <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Customer Phone</span>
-                  <div className="text-base font-bold text-slate-900">{customerPhone}</div>
+                  <div className="text-base font-bold text-white">{customerPhone}</div>
                 </div>
                 <div className="space-y-1">
                   <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">Date</span>
-                  <div className="text-base font-bold text-slate-900">{new Date().toLocaleDateString()}</div>
+                  <div className="text-base font-bold text-white">{new Date().toLocaleDateString()}</div>
                 </div>
               </div>
 
@@ -332,10 +332,10 @@ export function POSInterface() {
                   {cart.map((item) => (
                     <div key={item.id} className="flex justify-between items-start">
                       <div>
-                        <div className="text-sm font-bold text-slate-900">{item.name}</div>
+                        <div className="text-sm font-bold text-white">{item.name}</div>
                         <div className="text-xs text-slate-400 font-bold mt-1">₹{item.price.toFixed(2)} × {item.quantity}</div>
                       </div>
-                      <span className="text-sm font-bold text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="text-sm font-bold text-white">₹{(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
@@ -350,8 +350,8 @@ export function POSInterface() {
                   <span>Tax (5%)</span>
                   <span>₹{tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
-                  <span className="text-sm font-bold text-emerald-600 uppercase tracking-wide">Total Amount</span>
+                <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 text-white">
+                  <span className="text-sm font-bold text-emerald-400 uppercase tracking-wide">Total Amount</span>
                   <span className="text-2xl font-bold text-emerald-700">₹{total.toFixed(2)}</span>
                 </div>
               </div>

@@ -27,30 +27,46 @@ const VALID_USERS = [
   },
 ];
 
-export function AuthProvider({ children }) {
-  const [users, setUsers] = useState(() => {
-    const stored = localStorage.getItem('pharmacare_users');
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {
-        return VALID_USERS;
+const getInitialUsers = () => {
+  const stored = localStorage.getItem('pharmacare_users');
+  if (stored) {
+    try {
+      const parsedStored = JSON.parse(stored);
+      if (Array.isArray(parsedStored)) {
+        // Merge VALID_USERS with stored users to ensure defaults always exist
+        const merged = [...VALID_USERS];
+        parsedStored.forEach(u => {
+          if (u && u.email && !merged.some(m => m.email.toLowerCase() === u.email.toLowerCase())) {
+            merged.push(u);
+          }
+        });
+        return merged;
       }
+    } catch (e) {
+      console.error("Failed to parse pharmacare_users from localStorage", e);
     }
-    return VALID_USERS;
-  });
+  }
+  return VALID_USERS;
+};
+
+export function AuthProvider({ children }) {
+  const [users, setUsers] = useState(getInitialUsers);
 
   const [user, setUser] = useState(() => {
+    const initialUsers = getInitialUsers();
     const stored = localStorage.getItem('pharmacare_user');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        const isValidUser = users.some(u =>
-          u.email === parsed.email &&
-          u.role === parsed.role
-        );
-        return isValidUser ? parsed : null;
-      } catch {
+        if (parsed && parsed.email) {
+          const isValidUser = initialUsers.some(u =>
+            u.email.toLowerCase() === parsed.email.toLowerCase() &&
+            u.role === parsed.role
+          );
+          return isValidUser ? parsed : null;
+        }
+      } catch (e) {
+        console.error("Failed to parse pharmacare_user from localStorage", e);
         return null;
       }
     }
@@ -59,8 +75,9 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     await new Promise(resolve => setTimeout(resolve, 500));
+    const trimmedEmail = email.trim().toLowerCase();
     const foundUser = users.find(u =>
-      u.email.toLowerCase() === email.toLowerCase() &&
+      u.email.toLowerCase() === trimmedEmail &&
       u.password === password
     );
 

@@ -83,39 +83,45 @@ export function Sidebar({ currentView, onViewChange, isOpen, onClose }) {
           {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
 
-        <div className="flex items-center gap-3 px-4 py-6 overflow-hidden group">
-          <div className="bg-gradient-to-br from-emerald-600 via-emerald-500 to-emerald-600 text-white p-2.5 rounded-xl flex-shrink-0 shadow-lg shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-all duration-300 group-hover:scale-105">
-            <Pill size={24} className="drop-shadow-sm" />
-          </div>
-          {!isCollapsed && (
-            <div className="min-w-0">
-              <h1 className="text-lg font-bold truncate tracking-tight">PharmaCare</h1>
-              <p className="text-[0.75rem] text-gray-500 truncate tracking-wide">Healthcare System</p>
+        {/* Logo Section */}
+        <div className="p-6 border-b border-emerald-500/10">
+          <div className="flex items-center gap-3.5">
+            <div className="flex-shrink-0 w-11 h-11 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
+              <Pill className="text-white w-6 h-6" />
             </div>
-          )}
+            {!isCollapsed && (
+              <div className="flex flex-col animate-in fade-in slide-in-from-left-2 duration-300">
+                <span className="text-lg font-bold text-white tracking-tight leading-none">PharmaCare</span>
+                <span className="text-[0.6rem] font-bold text-emerald-400 uppercase tracking-[0.2em] mt-1.5 opacity-80">Health Systems</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {!isCollapsed && user?.role && (
-          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-semibold shadow-sm border border-white/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md ${roleStyles[user.role] || ""}`}>
+          <div className={`mx-4 mb-4 p-3 rounded-xl text-sm font-semibold shadow-sm border border-white/10 backdrop-blur-sm transition-all duration-200 hover:shadow-md ${roleStyles[user.role] || ""}`}>
             <span className="opacity-70 text-xs block mb-0.5 tracking-wider uppercase">Role</span>
             <strong className="capitalize tracking-wide">{user.role}</strong>
           </div>
         )}
 
-        <nav className="flex-1 px-2 space-y-1 overflow-y-auto min-h-0">
+        {/* Navigation Section */}
+        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
           {menuItems.map(({ id, label, icon: Icon }) => {
             const active = currentView === id;
             return (
               <button
                 key={id}
-                className={`flex items-center gap-3 py-2.5 px-3 rounded-xl border-none cursor-pointer w-full transition-all duration-200 group ${active
-                  ? "bg-gradient-to-r from-emerald-50 to-emerald-100/50 text-emerald-700 font-semibold shadow-sm border border-emerald-200/50 scale-[1.02]"
-                  : "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium hover:scale-[1.01] hover:shadow-sm active:scale-[0.99]"
-                  }`}
+                className={`
+                  w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-bold tracking-wide transition-all duration-300 group relative
+                  ${active
+                    ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
+                    : "text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-400"}
+                `}
                 onClick={() => onViewChange(id)}
                 title={isCollapsed ? label : undefined}
               >
-                <Icon size={20} className={`transition-all duration-200 ${active ? "text-emerald-600 drop-shadow-sm" : "text-gray-400 group-hover:text-gray-700 group-hover:scale-110"}`} />
+                <Icon size={20} className={`transition-all duration-200 ${active ? "text-white drop-shadow-sm" : "text-slate-500 group-hover:text-emerald-400 group-hover:scale-110"}`} />
                 {!isCollapsed && <span className="text-sm font-medium tracking-wide">{label}</span>}
               </button>
             );
